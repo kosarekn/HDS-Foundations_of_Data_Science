@@ -273,10 +273,10 @@ class(y)
 
 A factor in R is a data structure used to represent categorical data, which consists of a limited number of unique values (also known as levels). Factors are particularly useful when dealing with qualitative data, such as grouping variables or categorical responses, because they store both the values and the corresponding levels in an efficient way. 
 
-You might store subject disease status for all the subjects in your study as a factor, with the levels "Covid+" and "Covid-". 
+You might store subject disease disease_status for all the subjects in your study as a factor, with the levels "Covid+" and "Covid-". 
 
 ```{r}
-# Vector with disease status
+# Vector with disease disease_status
 x <- c("Covid+", "Covid+", "Covid-", "Covid+", "Covid-")
 
 # factor() forces a factorization of the data in your vector
@@ -443,13 +443,13 @@ In the previous section we generated a count matrix called `count.matrix` that c
 ```{r}
 df <- data.frame(subject_id = c("subject_1", "subject_2", "subject_3", "subject_4","subject_5","subject_6","subject_7","subject_8","subject_9","subject_10"),
                  age = c(45, 83, 38, 23, 65, 40, 32, 89, 77, 53),
-                 gender = c("female", "female", "male", "female", "female", "male", "female","male","male","male"),
+                 sex = c("female", "female", "male", "female", "female", "male", "female","male","male","male"),
                  disease_status = c("case", "case", "control", "control","case","case","case","control","control","case"))
 
 str(df)
 ```
 
-Here we created a data frame containing subject id, age, sex, and disease status information. These will be the columns of our data frame. Let's access the data in our data frame. Data frames can be subset in similar ways to matrices using brackets or the `$` subsetting operator. Columns/variables can also be added using the `$` operator.
+Here we created a data frame containing subject id, age, sex, and disease disease_status information. These will be the columns of our data frame. Let's access the data in our data frame. Data frames can be subset in similar ways to matrices using brackets or the `$` subsetting operator. Columns/variables can also be added using the `$` operator.
 
 ```{r}
 # get first row
@@ -458,16 +458,16 @@ df[1,]
 # get first column
 df[,1]
 
-# get gender variable/column
-df[, c("gender")]
+# get sex variable/column
+df[, c("sex")]
 
-# # get gender and status
-df[, c("gender", "status")]
+# # get sex and disease_status
+df[, c("sex", "disease_status")]
 
-# get the gender variable with $
-df$gender
+# get the sex variable with $
+df$sex
 
-# add a column for smoking status
+# add a column for smoking disease_status
 df$smoking_status <- c("former", "none", "heavy", "none","none","heavy","heavy","heavy","former","former")
 ```
 
@@ -475,19 +475,19 @@ Remember those relational operator we discussed at the beginning of this lesson?
 
 ```{r}
 # obtain a logical indicating which subjects are female
-df$gender == "female"
+df$sex == "female"
 
 # use logical to subset the data frame for only female subjects (rows)
-df2 <- df[df$gender == "female", ]
+df2 <- df[df$sex == "female", ]
 
 # check dimensions of the new data frame
 dim(df2)
 
 # use the LOGICAL NOT operator ! to obtain only male subjects  
-df[!df$gender == "female", ]
+df[!df$sex == "female", ]
 
 # this could obviously also be achieved with..
-df[df$gender == "male", ]
+df[df$sex == "male", ]
 ```
 
 ### Loops in R
