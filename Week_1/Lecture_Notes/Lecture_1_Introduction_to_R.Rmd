@@ -491,9 +491,167 @@ df[df$sex == "male", ]
 ```
 
 ### Loops in R
+In programming you will often find you must repeat tasks on a set of data or files. On one hand you can create individual scripts for each file or piece of data you wish to analysis, tediously copying and pasting code while changing file names. This issue with this is that it is time consuming and leaves room for human error. Instead of taking this approach we can leverage loops to conduct tasks on many data sets or files. There are two main types of loops we will be using in this course: for loops and while loops. 
 
+## For Loops
+
+A for loop in R is a control structure used to iterate over a sequence and execute a block of code multiple times. For loops in R take on the following format:
+
+```{r}
+for (variable in sequence){
+  # Code to execute
+}
+```
+
+The variable in the above pseudocode takes on each value in sequence during each iteration. The loop executes code inside the `{}` braces for each value in the sequence. You can apply what ever code you wish within the brackets. This includes self built functions, built in functions, visualizations, operations and so on. Let's take a look at a simple example in which we print out numbers from a vector one by one.
+
+```{r}
+numbers <- c(1, 2, 3, 4, 5)
+for (num in numbers) {
+  print(num)  # Prints each number
+}
+```
+
+As previously mentioned we can execute any operations we wish to conduct. Let's take the example from the previous code chunk and extend it a bit further to include a simple arthemetic operation, exponentiation.
+
+```{r}
+numbers <- c(1, 2, 3, 4, 5)
+for (num in numbers) {
+  print(num^2)  # Prints the square of each number
+}
+```
+
+In the above code chunk we are printing the result of the operation `num^2`, the square of each of the numbers in `numbers`. You can really start to see the utility of a for loop to execute commands quickly. Let's take a look at one final, more complex, example in which we generate a data frame containing numerical data and compute the mean of each column using a for loop. 
+
+```{r}
+# Create a sample data frame
+set.seed(123)  # For reproducibility
+df <- data.frame(
+  A = rnorm(5, mean = 10, sd = 2),  # 5 random numbers from a normal distribution
+  B = rnorm(5, mean = 20, sd = 5),
+  C = rnorm(5, mean = 30, sd = 10)
+)
+
+# Initialize an empty list to store column means
+col_means <- numeric(ncol(df))
+
+# For loop to compute column means
+for (i in 1:ncol(df)) {
+  col_means[i] <- mean(df[[i]])  # Compute mean of each column
+}
+
+# Print the computed means
+print(col_means)
+```
+
+In the above code we generated a random data frame with 3 columns A, B, and C. We also generated an empty vector into which we would store our output values, the mean of the columns. The for loop iterates through each column index and calculates the mean. We then stored the mean values in the col_means vector.
+
+## While Loops
+A while loop in R is a control structure that repeats a block of code as long as a specified condition remains TRUE. Unlike a for loop, which iterates over a predefined sequence, a while loop continues until the condition is not longer met. Here is the main backbone of a while loop:
+
+```{r}
+ while (condition) {
+  # Code to execute
+}
+```
+
+As we did with the for loop, let's take a look at a simple example of a while loop:
+
+```{r}
+x <- 1
+while (x <= 5) {
+  print(x)
+  x <- x + 1  # Increment x to avoid infinite loop
+}
+```
+
+In the above example, the loop runs until x exceeds 5, ensuring the condition x <= 5 remains TRUE. 
+
+At this point, you may be wondering when you should use a for loop vs. a while loop. Here is a short summary of when you should implement one or the other loop:
+
+  When to use a for loop:
+    - You know the exact number of iterations ahead of time (e.g. looping through elements of a vector or rows of a dataset).
+    - The iteration is based on a sequence (e.g. 1-10, A-Z).
+    
+  When to use a while loop:
+    - You don't know beforehand how many times the loop should run.
+    - The loop should run until a certain condition is met (e.g. convergence in an algorithm, waiting for a user input. etc.).
+    - The stopping condition is based on dynamically changing variables.
+    
 ### If/Else Statements in R
 
+If/else statements in R allow us to create decision making programs based on a test expression. In a real world example, let's say you are asked to bring a cake or a pie to your friend's house for dessert. If you decide to bring a cake then you need to get flour and eggs from the grocery store. The only remaining option is that you decide to make a pie and you will need to get crust and apples from the grocery store. We can model this decision making with the following code:
+
+```{r}
+decision <- "cake" # "pie"
+
+if (decision == "cake"){
+  print("You should buy flour and eggs at the grocery store")
+} else{
+  print("You should buy crust and apples at the grocery store.")
+}
+```
+
+Of course, cake will remain, in my opinion, the best option for dessert. Except for ice cream. That's the best dessert.
+
 ### Functions
+In R, a function is a reusable piece of code that performs a specific task. Functions allow for modular programming, reducing redundancy, and making code easier to maintain. R has many built-in functions, but you can also create your own, called user-defined functions.
+
+An R function is created using the `function()` keyword. The general structure is:
+
+```{r}
+function_name <- function(arg1, arg2, ...) {
+  # Function body (operations performed inside the function)
+  result <- some_operation(arg1, arg2, ...)
+  
+  return(result)  # Return the result
+}
+```
+
+In order to run a function that you generate you must call your function by it's name and then include values for the arguments in your function. In the following simple example we generate a function called `square` with one argument `x` and the output is the square of `x`.
+
+```{r}
+square <- function(x) {
+  result <- x^2
+  return(result)
+}
+
+# Test the function
+square(4)  # Output: 16
+square(7)  # Output: 49
+```
+
+You also have the opportunity to define functions with multiple arguments:
+
+```{r}
+myfun2 <- function(num1, num2){
+  num3 <- num1 + num2
+  return(num3)
+}
+
+# call the function
+myfun2(num1 = 10, num2 = 11)
+```
 
 ### Saving Objects and Other Files in R
+
+We may want to save our count matrix and metadata from the Matrices section to files we can later read back into R.
+
+The major functions in base R that exist for writing tabular data to file are write.table() and write.csv(). Similarly to the read functions, write.table() provides a more generalized solution to writing data that requires you to specify the separator value.
+
+In both functions, the first argument specifies the object in your global environment that you wish to write to file. The second argument defines the absolute or relative path to the location you wish to save this file.
+
+```{r}
+setwd("your_path/FoDS/data")
+# write to tab delimited file using write.table
+write.table(count.df, file = "count_df.txt", sep = "\t")
+```
+
+In contrast, read.csv() does not require you to set the delimiter value, and by default writes data to comma separated value files (.csv).
+
+```{r}
+setwd("your_path/FoDS/data")
+write.csv(df, file = "metadata_df.csv")
+```
+
+
