@@ -647,11 +647,66 @@ setwd("your_path/FoDS/data")
 write.table(count.df, file = "count_df.txt", sep = "\t")
 ```
 
+Let's say we wish to read back in the data from our text file. We can use one of two functions `read.table()` and `read.delim()`. `read.table()` is a general function for reading tabular data and can read any delimiter-separated file (comma, tab, space, etc.), but the delimiter must be specified manually. `read.delim()` is a specialized version of `read.table()`, pre-configured for tab-delimited files. 
+```{r}
+setwd("your_path/FoDS/data")
+
+# using read.table
+count.df <- read.table(file = "count_df.txt",sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+
+count.df <- read.delim(file = "count_df.txt", stringsAsFactors=FALSE)
+```
+
 In contrast, read.csv() does not require you to set the delimiter value, and by default writes data to comma separated value files (.csv).
 
 ```{r}
 setwd("your_path/FoDS/data")
 write.csv(df, file = "metadata_df.csv")
 ```
+
+read.csv() is used in exactly the same way read.delim(), however the file specified must contain data separated by commas and have the extension .csv.
+
+```{r}
+setwd("your_path/FoDS/data")
+meta_data <- read.csv(file = "metadata_df.csv",row.names=1)
+meta_data
+```
+
+It is possible to save R objects to a file that maintains all of their attributes so that they can be easily loaded back into a new R session. This functionality is achieved using the save() and load() functions.
+
+save() accepts the names of the R objects you wish to write to a file (which will have the extension .rdata) as the first arguments, and the file path where you wish to write this file under the file argument. For example:
+
+```{r}
+# create some R objects
+x <- c(1.63, 2.25, 3.83, 4.99)
+y <- c(TRUE, FALSE, TRUE, TRUE)
+z <- c("a", "b", "c", "d")
+
+# check where we are
+getwd()
+
+# save all 3 objects to one file
+save(x, y, z, file = "my_r_objects.rdata")
+```
+
+These objects can then be loaded back into your global environment using the load() function with the absolute or relative file path. The objects will appear in your new environment with exactly the same names as in your previous environment.
+
+```{r}
+load(file = "my_r_objects.rdata")
+```
+
+Single R objects can be saved and restored in a similar way using the saveRDS() and readRDS() functions. Files saved using RDS must take on the .rds extension.
+
+```{r}
+# save a single object to a specific file path
+saveRDS(x, file = "my_r_object.rds")
+
+# use the assignment operator to assign object to any variable you want
+x <- readRDS(file = "my_r_object.rds")
+
+# I changed my mind, I want the object to be assigned to variable `a` in my new env
+a <- readRDS(file = "my_r_object.rds")
+```
+
 
 
