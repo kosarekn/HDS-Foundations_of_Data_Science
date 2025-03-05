@@ -436,7 +436,7 @@ A %*% B
 ```
 
 ## Data Frames
-A data frame in R is a tow-dimensional data structure that is similar to a matrix, but allows different types of data in different columns. It is one of the most commonly used structures for handling tabular data, making it an essential tool for data analysis and manipulation. 
+A data frame in R is a two-dimensional data structure that is similar to a matrix, but allows different types of data in different columns. It is one of the most commonly used structures for handling tabular data, making it an essential tool for data analysis and manipulation. 
 
 In the previous section we generated a count matrix called `count.matrix` that contained pseudo-RNA-seq count data. Let's build a data frame that contains associated mate data about each of the subjects in our study. 
 
