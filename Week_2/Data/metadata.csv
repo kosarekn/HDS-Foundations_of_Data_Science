@@ -1,0 +1,93 @@
+Labels,AGE,aggregational_histological_score,Biologic,CRP,das28_score,diagnosis,ESR,ETHNICITY,gender,haq-di_score,inflammatory_score,location_of_joint_biopsy,Organism,pathotype,radiographic_erosion,RF,source_name,status,timepoint,RIN
+mr_013_post,58,Diffuse,Etanercept,0,3.5,RA,8,Asian,female,1.125,2,Wrist,Homo sapiens,Lymphoid,NA,72,Synovial Tissue,Mod-Responder,Post,
+mr_013_pre,58,Grade 3,Etanercept,0,6.5,RA,19,Asian,female,2.625,8,Wrist,Homo sapiens,Lymphoid,NA,72,Synovial Tissue,Mod-Responder,Pre,8.1
+mr_012_post,61,Grade 1,Etanercept,0,3.6,RA,5,Caucasian,female,0.2,3,Wrist,Homo sapiens,Lymphoid,Yes,115,Synovial Tissue,Mod-Responder,Post,2.4
+mr_012_pre,61,Grade 2,Etanercept,5,6.7,RA,14,Caucasian,female,2,4,Wrist,Homo sapiens,Lymphoid,Yes,115,Synovial Tissue,Mod-Responder,Pre,2.6
+mr_011_post,27,Grade 3,Certolizumab,NA,5.3,RA,43,African,female,2.375,4,MCP,Homo sapiens,Lymphoid,Yes,0,Synovial Tissue,Mod-Responder,Post,4.3
+mr_011_pre,27,Grade 3,Certolizumab,12,8,RA,49,African,female,2.625,5,MCP,Homo sapiens,Lymphoid,Yes,0,Synovial Tissue,Mod-Responder,Pre,2.7
+mr_010_post,56,Grade 1,Certolizumab,5,4,RA,8,Asian,male,1.25,5,Wrist,Homo sapiens,Lymphoid,Yes,15,Synovial Tissue,Mod-Responder,Post,7
+mr_010_pre,56,Grade 3,Certolizumab,11,6.9,RA,16,Asian,male,1.875,7,Wrist,Homo sapiens,Lymphoid,Yes,0,Synovial Tissue,Mod-Responder,Pre,7.9
+mr_009_post,54,Diffuse,Certolizumab,5,4.3,RA,NA,Asian or Asian British - Indian,female,1.5,2,Wrist,Homo sapiens,Lymphoid,No,118,Synovial Tissue,Mod-Responder,Post,6.7
+mr_009_pre,54,Grade 3,Certolizumab,18,8,RA,79,Asian or Asian British - Indian,female,2.375,6,Wrist,Homo sapiens,Lymphoid,No,118,Synovial Tissue,Mod-Responder,Pre,2.5
+mr_008_post,52,Grade 3,Certolizumab,14,3.6,RA,35,Asian,male,0.125,7,Elbow,Homo sapiens,Lymphoid,No,112,Synovial Tissue,Mod-Responder,Post,2.7
+mr_008_pre,52,Grade 3,Certolizumab,20,5.5,RA,44,Asian,male,0.75,7,Elbow,Homo sapiens,Lymphoid,No,112,Synovial Tissue,Mod-Responder,Pre,7.4
+mr_007_post,56,Diffuse,Certolizumab,NA,4.4,RA,7,Asian,male,2.75,3,Wrist,Homo sapiens,Myeloid,Yes,79,Synovial Tissue,Mod-Responder,Post,1.4
+mr_007_pre,56,Diffuse,Certolizumab,5,6.6,RA,16,Asian,male,1.875,2,Knee,Homo sapiens,Myeloid,Yes,79,Synovial Tissue,Mod-Responder,Pre,1.4
+mr_006_post,33,Under QC Assessment,Certolizumab,NA,3.4,RA,8,Caucasian,female,0,NA,MCP,Homo sapiens,Myeloid,Yes,0,Synovial Tissue,Mod-Responder,Post,2.4
+mr_006_pre,33,Diffuse,Certolizumab,124,7.4,RA,63,Caucasian,female,0.125,4,MCP,Homo sapiens,Myeloid,Yes,0,Synovial Tissue,Mod-Responder,Pre,3.1
+mr_005_post,42,Diffuse,Certolizumab,0,4.5,RA,22,Asian,female,0.75,2,Wrist,Homo sapiens,Myeloid,Yes,0,Synovial Tissue,Mod-Responder,Post,
+mr_005_pre,42,Diffuse,Certolizumab,0,6.8,RA,27,Asian,female,1.25,2,Wrist,Homo sapiens,Myeloid,Yes,0,Synovial Tissue,Mod-Responder,Pre,
+mr_004_post,24,Pauci-immune,Certolizumab,11,4.4,RA,52,Asian,female,1.25,1,Wrist,Homo sapiens,Myeloid,No,0,Synovial Tissue,Mod-Responder,Post,4.6
+mr_004_pre,24,Diffuse,Certolizumab,11,6.2,RA,46,Asian,female,2.375,2,Wrist,Homo sapiens,Myeloid,No,0,Synovial Tissue,Mod-Responder,Pre,8.6
+mr_003_post,66,Diffuse,Etanercept,22,5.1,RA,33,Caucasian,female,1.25,2,Wrist,Homo sapiens,Fibroid,NA,600,Synovial Tissue,Mod-Responder,Post,5.8
+mr_003_pre,66,Diffuse,Etanercept,5,6.9,RA,33,Caucasian,female,1.875,1,Wrist,Homo sapiens,Fibroid,NA,600,Synovial Tissue,Mod-Responder,Pre,4.5
+mr_002_post,59,Pauci-immune,Etanercept,0,4.9,RA,5,Jamaican,female,2.376,1,Wrist,Homo sapiens,Fibroid,Yes,18,Synovial Tissue,Mod-Responder,Post,
+mr_002_pre,59,Pauci-immune,Etanercept,0,5.9,RA,7,Jamaican,female,2.1,1,Wrist,Homo sapiens,Fibroid,Yes,18,Synovial Tissue,Mod-Responder,Pre,6.1
+mr_001_post,61,Pauci-immune,Certolizumab,NA,4.2,RA,7,Caucasian,female,0.125,1,Wrist,Homo sapiens,Fibroid,Yes,23,Synovial Tissue,Mod-Responder,Post,
+mr_001_pre,61,Pauci-immune,Certolizumab,0,4.9,RA,5,Caucasian,female,0.625,1,Wrist,Homo sapiens,Fibroid,Yes,23,Synovial Tissue,Mod-Responder,Pre,
+nr_015_post,52,Grade 3,Etanercept,0,6.3,RA,8,Caucasian,male,1.875,5,MCP,Homo sapiens,Lymphoid,No,188,Synovial Tissue,Non-Responder,Post,2.4
+nr_015_pre,52,Grade 3,Etanercept,12,6.2,RA,12,Caucasian,male,NA,5,MCP,Homo sapiens,Lymphoid,No,188,Synovial Tissue,Non-Responder,Pre,2.5
+nr_014_post,32,Under QC Assessment,Etanercept,21,6.1,RA,28,Chinese,female,1.2,NA,Wrist,Homo sapiens,Lymphoid,NA,52,Synovial Tissue,Non-Responder,Post,5
+nr_014_pre,32,Grade 2,Etanercept,33,6.5,RA,37,Chinese,female,1.3,5,Wrist,Homo sapiens,Lymphoid,NA,52,Synovial Tissue,Non-Responder,Pre,
+nr_013_post,35,Grade 2,Etanercept,0,4.5,RA,16,Asian,female,1,5,MTP,Homo sapiens,Lymphoid,No,56,Synovial Tissue,Non-Responder,Post,7.7
+nr_013_pre,35,Grade 2,Etanercept,0,4.5,RA,5,Asian,female,1.4,5,MTP,Homo sapiens,Lymphoid,No,56,Synovial Tissue,Non-Responder,Pre,6.5
+nr_012_post,66,Grade 3,Certolizumab,5,6.3,RA,18,Caucasian,female,0.5,8,MCP,Homo sapiens,Lymphoid,Yes,123,Synovial Tissue,Non-Responder,Post,7.4
+nr_012_pre,66,Grade 2,Certolizumab,12,7.3,RA,27,Caucasian,female,1.125,4,Wrist,Homo sapiens,Lymphoid,Yes,123,Synovial Tissue,Non-Responder,Pre,5.2
+nr_011_post,71,Diffuse,Etanercept,10,4.8,RA,12,Caucasian,female,1.625,3,Wrist,Homo sapiens,Myeloid,NA,27,Synovial Tissue,Non-Responder,Post,2.5
+nr_011_pre,71,Diffuse,Etanercept,54,5.3,RA,32,Caucasian,female,1.75,3,Wrist,Homo sapiens,Myeloid,NA,27,Synovial Tissue,Non-Responder,Pre,
+nr_010_post,66,Pauci immune,Etanercept,5,5.2,RA,9,Caucasian,female,1.75,1,Wrist,Homo sapiens,Myeloid,NA,38,Synovial Tissue,Non-Responder,Post,2.7
+nr_010_pre,66,Pauci immune,Etanercept,9,6.4,RA,17,Caucasian,female,1.6,2,Wrist,Homo sapiens,Myeloid,NA,38,Synovial Tissue,Non-Responder,Pre,2.3
+nr_009_post,52,Diffuse,Certolizumab,5,5.2,RA,15,Caucasian,female,1.5,2,Wrist,Homo sapiens,Myeloid,Yes,0,Synovial Tissue,Non-Responder,Post,7.4
+nr_009_pre,52,Diffuse,Certolizumab,5,5.7,RA,9,Caucasian,female,1.5,2,Wrist,Homo sapiens,Myeloid,Yes,0,Synovial Tissue,Non-Responder,Pre,4.8
+nr_007_post,62,Diffuse,Certolizumab,NA,4.8,RA,18,Asian,female,0.63,4,Wrist,Homo sapiens,Myeloid,No,71,Synovial Tissue,Non-Responder,Post,3
+nr_007_pre,62,Diffuse,Certolizumab,5,5.2,RA,12,Asian,female,1.5,3,Wrist,Homo sapiens,Myeloid,No,71,Synovial Tissue,Non-Responder,Pre,2.2
+nr_006_post,51,Diffuse,Certolizumab,5,5.6,RA,16,Asian,male,2.625,3,Wrist,Homo sapiens,Myeloid,No,0,Synovial Tissue,Non-Responder,Post,3.6
+nr_006_pre,51,Under QC Assessment,Certolizumab,8,5.5,RA,7,Asian,male,2.25,NA,Wrist,Homo sapiens,Myeloid,No,0,Synovial Tissue,Non-Responder,Pre,
+nr_005_post,65,Diffuse,Certolizumab,5,6,RA,22,Asian,female,2.375,3,Knee,Homo sapiens,Myeloid,Yes,25,Synovial Tissue,Non-Responder,Post,5.9
+nr_005_pre,65,Diffuse,Certolizumab,8,7.1,RA,31,Asian,female,2.625,3,MCP,Homo sapiens,Myeloid,Yes,25,Synovial Tissue,Non-Responder,Pre,3.6
+nr_004_post,55,Diffuse,Certolizumab,0,6.4,RA,13,Caucasian,female,2.375,4,Wrist,Homo sapiens,Myeloid,No,22,Synovial Tissue,Non-Responder,Post,
+nr_004_pre,55,Diffuse,Certolizumab,0,7.4,RA,28,Caucasian,female,1.875,1,Wrist,Homo sapiens,Myeloid,No,22,Synovial Tissue,Non-Responder,Pre,3.9
+nr_003_post,64,Diffuse,Certolizumab,0,6.7,RA,19,Caucasian,female,2.625,2,MCP,Homo sapiens,Myeloid,Yes,332,Synovial Tissue,Non-Responder,Post,
+nr_003_pre,64,Grade 1,Certolizumab,9,7.8,RA,43,Caucasian,female,2.625,5,MCP,Homo sapiens,Myeloid,Yes,332,Synovial Tissue,Non-Responder,Pre,
+nr_002_post,53,Diffuse,Etanercept,0,5.6,RA,34,Asian,female,1.625,2,Wrist,Homo sapiens,Fibroid,No,0,Synovial Tissue,Non-Responder,Post,2.7
+nr_002_pre,53,Under QC Assessment,Etanercept,0,6.1,RA,42,Asian,female,2.625,NA,Wrist,Homo sapiens,Fibroid,No,0,Synovial Tissue,Non-Responder,Pre,1.9
+nr_001_post,40,Pauci immune,Certolizumab,0,6.2,RA,15,Asian,female,NA,1,Wrist,Homo sapiens,Fibroid,No,0,Synovial Tissue,Non-Responder,Post,4.2
+nr_001_pre,40,Pauci immune,Certolizumab,0,6.7,RA,33,Asian,female,2.625,1,Wrist,Homo sapiens,Fibroid,No,0,Synovial Tissue,Non-Responder,Pre,2.5
+r_019_post,52,Under QC Assessment,Certolizumab,5,2.7,RA,NA,Caucasian,female,0.75,NA,Wrist,Homo sapiens,Lymphoid,Yes,80,Synovial Tissue,Responder,Post,4.9
+r_019_pre,52,Grade 3,Certolizumab,8,5.8,RA,17,Caucasian,female,1.13,6,Wrist,Homo sapiens,Lymphoid,Yes,80,Synovial Tissue,Responder,Pre,6.9
+r_018_post,65,Pauci-immune,Etanercept,0,2.7,RA,2,Asian,male,1.625,1,Wrist,Homo sapiens,Fibroid,NA,337,Synovial Tissue,Responder,Post,4.3
+r_018_pre,65,Pauci-immune,Etanercept,0,4.6,RA,5,Asian,male,2.125,1,Wrist,Homo sapiens,Fibroid,NA,337,Synovial Tissue,Responder,Pre,7.2
+r_017_post,58,Pauci-immune,Certolizumab,0,2.8,RA,2,Caucasian,female,NA,2,Wrist,Homo sapiens,Fibroid,No,44,Synovial Tissue,Responder,Post,
+r_017_pre,58,Pauci-immune,Certolizumab,8,6.4,RA,5,Caucasian,female,NA,1,Wrist,Homo sapiens,Fibroid,No,44,Synovial Tissue,Responder,Pre,
+r_016_post,60,Grade 2,Certolizumab,NA,3.1,RA,12,Asian,female,1.38,3,Wrist,Homo sapiens,Lymphoid,NA,176,Synovial Tissue,Responder,Post,5.6
+r_016_pre,60,Grade 3,Certolizumab,10,6.3,RA,17,Asian,female,2.13,8,Wrist,Homo sapiens,Lymphoid,NA,176,Synovial Tissue,Responder,Pre,6.9
+r_015_post,51,Grade 1,Certolizumab,NA,2.7,RA,6,Caucasian,male,0.13,4,Wrist,Homo sapiens,Lymphoid,Yes,85,Synovial Tissue,Responder,Post,2.5
+r_015_pre,51,Grade 3,Certolizumab,5,5.1,RA,10,Caucasian,male,0.88,8,Wrist,Homo sapiens,Lymphoid,Yes,85,Synovial Tissue,Responder,Pre,7.1
+r_014_post,52,Diffuse,Certolizumab,NA,2.7,RA,5,Caucasian,female,0.375,4,Wrist,Homo sapiens,Lymphoid,No,0,Synovial Tissue,Responder,Post,2.6
+r_014_pre,52,Grade 2,Certolizumab,5,5.6,RA,5,Caucasian,female,1.5,5,Wrist,Homo sapiens,Lymphoid,No,0,Synovial Tissue,Responder,Pre,
+r_013_post,52,Grade 2,Certolizumab,NA,3.2,RA,35,Caucasian,female,1.375,6,Knee,Homo sapiens,Lymphoid,No,108,Synovial Tissue,Responder,Post,6.4
+r_013_pre,52,Grade 2,Certolizumab,6,5.7,RA,45,Caucasian,female,1.5,5,Knee,Homo sapiens,Lymphoid,No,108,Synovial Tissue,Responder,Pre,8
+r_012_post,33,Grade 3,Certolizumab,0,1.3,RA,2,Caucasian,female,0,7,MCP,Homo sapiens,Lymphoid,Yes,0,Synovial Tissue,Responder,Post,7.2
+r_012_pre,33,Grade 3,Certolizumab,0,6,RA,8,Caucasian,female,0.875,7,MCP,Homo sapiens,Lymphoid,Yes,0,Synovial Tissue,Responder,Pre,6.6
+r_011_post,73,Grade 3,Etanercept,0,2.9,RA,32,Asian,male,1.75,5,Wrist,Homo sapiens,Lymphoid,No,54,Synovial Tissue,Responder,Post,3.1
+r_011_pre,73,Grade 3,Etanercept,0,5.3,RA,46,Asian,male,1.875,7,Wrist,Homo sapiens,Lymphoid,No,54,Synovial Tissue,Responder,Pre,3.3
+r_010_post,61,Pauci-immune,Etanercept,7,1.5,RA,2,Caucasian,male,0.5,1,Wrist,Homo sapiens,Myeloid,NA,164,Synovial Tissue,Responder,Post,2.5
+r_010_pre,61,Under QC Assessment,Etanercept,32,5.7,RA,16,Caucasian,male,0.5,NA,Wrist,Homo sapiens,Myeloid,NA,164,Synovial Tissue,Responder,Pre,1.2
+r_009_post,46,Under QC Assessment,Etanercept,0,3.1,RA,5,Caucasian,male,0,NA,Wrist,Homo sapiens,Myeloid,NA,0,Synovial Tissue,Responder,Post,2.4
+r_009_pre,46,Pauci immune,Etanercept,31,5.6,RA,44,Caucasian,male,1.375,2,Wrist,Homo sapiens,Myeloid,NA,0,Synovial Tissue,Responder,Pre,1.9
+r_008_post,53,Grade 1,Etanercept,0,2.6,RA,5,Caucasian,female,0.125,2,Wrist,Homo sapiens,Myeloid,NA,0,Synovial Tissue,Responder,Post,5.8
+r_008_pre,53,Grade 1,Etanercept,7,6,RA,12,Caucasian,female,1.375,2,Wrist,Homo sapiens,Myeloid,NA,0,Synovial Tissue,Responder,Pre,2.2
+r_007_post,42,Diffuse,Etanercept,0,2.9,RA,2,Caucasian,female,0.2,2,Wrist,Homo sapiens,Myeloid,NA,49,Synovial Tissue,Responder,Post,6.7
+r_007_pre,42,Diffuse,Etanercept,0,5.2,RA,2,Caucasian,female,1.3,3,Wrist,Homo sapiens,Myeloid,NA,49,Synovial Tissue,Responder,Pre,5.5
+r_006_post,69,Grade 2,Etanercept,1,1.7,RA,2,Bangladeshi,female,1.875,3,Wrist,Homo sapiens,Myeloid,NA,NA,Synovial Tissue,Responder,Post,6.4
+r_006_pre,69,Grade 2,Etanercept,0,5.1,RA,18,Bangladeshi,female,1.6,5,Wrist,Homo sapiens,Myeloid,NA,NA,Synovial Tissue,Responder,Pre,6.3
+r_005_post,50,Grade 2,Etanercept,0,2.8,RA,28,Caribbean,female,0,4,Wrist,Homo sapiens,Myeloid,NA,22,Synovial Tissue,Responder,Post,6.8
+r_005_pre,50,Diffuse,Etanercept,14,6.8,RA,44,Caribbean,female,0.875,2,Wrist,Homo sapiens,Myeloid,NA,22,Synovial Tissue,Responder,Pre,3.1
+r_004_post,55,Diffuse,Certolizumab,5,2.8,RA,17,Caucasian,male,0.375,2,Wrist,Homo sapiens,Myeloid,Yes,0,Synovial Tissue,Responder,Post,3.6
+r_004_pre,55,Diffuse,Certolizumab,5,5.1,RA,10,Caucasian,male,1.875,2,Wrist,Homo sapiens,Myeloid,Yes,0,Synovial Tissue,Responder,Pre,
+r_003_post,47,Diffuse,Certolizumab,0,1.2,RA,5,Caucasian,female,0,3,MCP,Homo sapiens,Myeloid,Yes,77,Synovial Tissue,Responder,Post,
+r_003_pre,47,Grade 1,Certolizumab,0,5.7,RA,7,Caucasian,female,0.375,4,MCP,Homo sapiens,Myeloid,Yes,77,Synovial Tissue,Responder,Pre,
+r_002_post,71,Pauci-immune,Certolizumab,0,2,RA,NA,Caucasian,female,0.625,1,Wrist,Homo sapiens,Myeloid,Yes,187,Synovial Tissue,Responder,Post,
+r_002_pre,71,Diffuse,Certolizumab,5,6.1,RA,47,Caucasian,female,1,2,Wrist,Homo sapiens,Myeloid,Yes,187,Synovial Tissue,Responder,Pre,
+r_001_post,85,Pauci-immune,Etanercept,0,3,RA,20,Caucasian,female,0,1,Wrist,Homo sapiens,Fibroid,Yes,230,Synovial Tissue,Responder,Post,6.4
+r_001_pre,85,Under QC Assessment,Etanercept,0,5.3,RA,12,Caucasian,female,0,NA,Wrist,Homo sapiens,Fibroid,Yes,230,Synovial Tissue,Responder,Pre,3
