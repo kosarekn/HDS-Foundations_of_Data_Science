@@ -1,0 +1,7 @@
+name: my_first_R_env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - r-base=4.4.1
+  - r-dplyr
