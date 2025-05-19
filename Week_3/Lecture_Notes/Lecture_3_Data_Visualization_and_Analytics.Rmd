@@ -1,0 +1,197 @@
+---
+title: "Lecture_3_Data_Visualization_and_Analytics"
+output: pdf_document
+date: "2025-05-19"
+---
+
+### More Advanced Data Analytics and Visualization
+In the previous lesson we learned how to make visually appealing plots with `ggplot2`. The objective of the plots we generate is to demonstrate a particular point that is supported by our exploration and analysis of the data to which we have access. For example, we might have a hypothesis that older folks have higher systolic blood pressure than younger folks. Our knee jerk reaction is to go directly to the age and systolic blood pressure variables in our data, create a box plot, run a simple statistical test, brush our hands off, and call it a day. Certainly we can do this, but this cursory analysis does not delve into confounding variables or take full advantage of the types of data to which we have access. In today's lesson we will go beyond simply looking into our variables of interest to see what is really under the hood of our data. 
+
+First things first, we need a data set with which to investigate our hypothesis. Remember, our hypothesis is that systolic blood pressure increases with increasing age. One incredible, freely available resource we have at our fingertips to explore this hypothesis is the National Health and Nutrition Examination Survey (NHANES) data. NHANES is a program of studies designed to assess the health and nutritional status of adults and children in the United States. It is conducted by the National Center for Health Statistics (NCHS), which is part of the Centers for Disease Control and Prevention (CDC). 
+
+NHANES collects a wide range of health related information to understand the prevalence of major diseases and risk factors, assess nutritional status, and track health trends in the US. 
+
+NHANES collects demographic, dietary, health, physical exam, laboratory, and environmental exposure information. These include, but are not limited to age, gender, race, chronic health conditions, height, weight, cholesterol, glucose, heavy metals, and chemical exposures. NHANES is released in two year cycles. More information on NAHNES along with downloadable data can be found at this [link](https://www.cdc.gov/nchs/nhanes/index.html). 
+
+I have downloaded two files for us to work with today and put them in the "Data" directory for this week on my GitHub as well as our canvas page. These data files contain information from August 2021 - August 2023. The DEMO_L.xpt file contains demographic information. The second file is called BPX0_L.xpt. This file contains examination variables such as blood pressure, heart rate, and results of balance testing. Full descriptions of the variables found in  Doc File links for the [demographic](https://wwwn.cdc.gov/nchs/nhanes/search/datapage.aspx?Component=Demographics&Cycle=2021-2023) and [examination](https://wwwn.cdc.gov/nchs/nhanes/search/datapage.aspx?Component=Examination&Cycle=2021-2023) webpages.
+
+These files have a funny extension, .xpt, which is a binary file format developed by SAS Institute to store and transfer data between systems. We will continuing to script in R, which has a fancy package available called "haven" that will help us read in this file type and convert the data to a data frame.  
+```{r setup, include=TRUE}
+## Load the haven library to read in .xpt files
+library(haven)
+
+## Read in files
+blood_pressure_df <- read_xpt("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Data/BPXO_L.xpt")
+demographics_df <- read_xpt("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Data/DEMO_L.xpt")
+
+## Take a look at the data
+head(blood_pressure_df)
+head(demographics_df)
+
+## Combine data frames on the SEQN (participant identifier) column
+data_df <- merge(demographics_df, blood_pressure_df, by = "SEQN")
+
+## RIDAGEYR - Age in years at exam
+## BPXOSY1 - Systolic reading 
+```
+
+There we have now read in our two data files and combined the information on the participant identifier to generate one big data frame containing all of our demographic and examination data. Let's take a look at the distribution of our two variable, age and systolic blood pressure.
+
+Age in years is stored in under RIDAGEYR. The systolic blood pressure reading is found under BPXOSY1. I want to get a decent understanding of the distribution of our data so I'll generate a histogram, violin plot, and cumulative distribution function. We are likely all fairly familiar with histograms and violin plot, if not from our daily lives, but also from earlier lessons. Not all of us has encountered a cumulative distribution function though. A cumulative distribution plot is a graphical representation of the cumulative distribution function of a variable, in our case age and systolic blood pressure. The plot shows the probability of a particular value for blood pressure or age, what percentage of participants have a blood pressure or age less than or equal to that value.
+
+```{r}
+## Read in libraries
+library(ggplot2)
+library(gridExtra)
+library(ggpubr)
+
+# Histogram for Age
+p1 <- ggplot(data_df, aes(x = RIDAGEYR)) +
+  geom_histogram(bins = 30, fill = "blue", alpha = 0.7) +
+  labs(title = "Histogram of Age", 
+       x = "Age", 
+       y = "Frequency")
+
+# Violin plot for Age
+p2 <- ggplot(data_df, aes(x = "", y = RIDAGEYR)) +
+  geom_violin(fill = "blue", alpha = 0.7) +
+  labs(title = "Violin Plot of Age", 
+       x = "", 
+       y = "Age")
+
+# Cumulative Distribution Function for Age
+p3 <- ggplot(data_df, aes(x = RIDAGEYR)) +
+  stat_ecdf(geom = "step", color = "blue") +
+  labs(title = "CDF of Age", 
+       x = "Age", 
+       y = "Cumulative Probability")
+
+# Arrange Age plots
+ridageyr_plots <- ggarrange(p1, p2, p3, 
+                            ncol = 2, 
+                            nrow = 2)
+
+# Histogram for Systolic Blood Pressure
+p4 <- ggplot(data_df, aes(x = BPXOSY1)) +
+  geom_histogram(bins = 30, fill = "red", alpha = 0.7) +
+  labs(title = "Histogram of Systolic Blood Pressure", 
+       x = "Systolic Blood Pressure", 
+       y = "Frequency")
+
+# Violin plot for Systolic Blood Pressure
+p5 <- ggplot(data_df, aes(x = "", y = BPXOSY1)) +
+  geom_violin(fill = "red", alpha = 0.7) +
+  labs(title = "Violin Plot of Systolic Blood Pressure", 
+       x = "", 
+       y = "Systolic Blood Pressure")
+
+# Cumulative Distribution Function for Systolic Blood Pressure
+p6 <- ggplot(data_df, aes(x = BPXOSY1)) +
+  stat_ecdf(geom = "step", color = "red") +
+  labs(title = "CDF of Systolic Blood Pressure", 
+       x = "Systolic Blood Pressure", 
+       y = "Cumulative Probability")
+
+# Arrange Systolic Blood Pressure plots
+BPXOSY1_plots <- ggarrange(p4, p5, p6, 
+                            ncol = 2, 
+                            nrow = 2)
+
+# Display plots
+print(ridageyr_plots)
+print(BPXOSY1_plots)
+```
+
+Nice! We have made some figures that help us understand the distribution of our data. Looking at the plots we generated for age it is important to note that we have children under the age of 18. For the purposes of our study, we want to consider only adults, 18+. Additionally, the cumulative distribution plot indicates that about 25% of our data comes from folks under the age of 20. A bit less than 50% of our data is derived from participants between the ages of 20 and 60. Finally, about 25% of our data is taken from folks over the age of 60. This indicates that the data is fairly evenly spread across age, which is supported by the distribution of the data show in the histogram and violin plots. It looks like before proceeding, we need only subset our data to include participants over the age of 18, but let's make sure we don't have any NA values in this category! 
+
+```{r}
+## Check for NAs in the age variable
+length(which(is.na(data_df$RIDAGEYR) == TRUE))
+```
+Great! It does not look like we have any missing values in the age variable. Before subsetting our data frame on age, let's also discuss the distribution of the systolic blood pressure variable. Judging by the histogram and violin plot, the distribution of the heart rate variable is fairly normal. According to the cumulative distribution function, about 90% of the values are between 100 and 150 beats per minute. As we did with age, let's take a look and see if there are any NA values in our systolic blood pressure variable.
+
+```{r}
+## Check for NAs in the age variable
+length(which(is.na(data_df$BPXOSY1) == TRUE))
+```
+
+Hummm, it seems there are 284 missing values for this variable. This is only 3.64% of our data. Typically, we might explore imputation of this data given the missing values. Imputation is a statistical technique used to fill in missing data within a data set when 5-20% of a variable is missing. Rather than discarding records with missing values, imputation estimates those missing entries based on the available data. This helps maintain data set size and can improve the accuracy and robustness of analyses or predictive models. There are many methods for imputation including: 
+
+* mean/median/mode imputation
+* forward/backward fill
+* regression imputation
+* k-nearest neighbor
+* multiple imputation
+
+Imputation in many of it's forms will be covered in a later class. For now, we will simply remove the records containing missing values. 
+```{r}
+## Subset the data to remove under 18
+data_df_sub <- data_df[data_df$RIDAGEYR >= 18,]
+
+## Subset the data to remove participants with NA values
+data_df_sub <- data_df_sub[(is.na(data_df_sub$BPXOSY1) == FALSE),]
+
+
+## Number of participants after subsetting to adults
+dim(data_df_sub)
+```
+
+Nice, we now have our subset data and we are ready to work with it and uncover any secret relationships between the variables!Let's begin by creating a scatter plot of our two variables. 
+
+```{r}
+# Basic scatter plot of Systolic Blood Pressure vs Age
+ggplot(data_df_sub, aes(x = RIDAGEYR, y = BPXOSY1)) +
+  geom_point(alpha = 0.6, color = "blue") +             # scatter points with some transparency
+  labs(
+    title = "Scatter plot of Systolic Blood Pressure vs Age",
+    x = "Age",
+    y = "Systolic Blood Pressure"
+  ) +
+  theme_minimal()    
+```
+I don't know about you, but I can not discern any sort of relationship between our two variables by just looking at this plot with a bunch of points. To enlighten ourselves, we can add a regression line to our plot. A regression line is a straight line that best represents the relationship between two variables in a scatter plot. Specifically, in linear regression, it models the expected values of a dependent variable (outcome) as a linear function of an independent variable (predictor). In our case, the slope of this line tells us how much change in systolic blood pressure is expected per unit change in age. 
+
+In the code chunk below, we first fit a linear model to our data. For our purposes, we are assuming a linear relationship between the two variables. In future classes you will learn to fit different types of models to your data. After fitting the model we extract the coefficients so that they can be added to the scatter plot with the regression line. We then create the same scatter plot as above, but include the function `geom_smooth()` with `method="lm"` to indicate that we will be adding a linear regression line to our plot. 
+
+```{r}
+# Fit linear model
+model <- lm(BPXOSY1 ~ RIDAGEYR, data = data_df_sub)
+
+# Extract coefficients
+coefficients <- coef(model)
+intercept <- coefficients[1]
+slope <- coefficients[2]
+
+# Create equation label text
+eq_label <- paste0("y = ",
+                   round(slope, 2), "x + ",
+                   round(intercept, 2))
+
+# Generate scatter plot with regression line and equation annotation
+ggplot(data_df_sub, aes(x = RIDAGEYR, y = BPXOSY1)) +
+  geom_point(alpha = 0.6, color = "blue") +                
+  geom_smooth(method = "lm", se = TRUE, color = "red") +        
+  labs(
+    title = "Systolic Blood Pressure vs Age \nwith Regression Line and Equation",
+    x = "Age",
+    y = "Systolic Blood Pressure"
+  ) +
+  annotate("text", x = Inf, y = -Inf, label = eq_label,
+           hjust = 1.1, vjust = -1.1, size = 5, color = "red") +   
+  theme_minimal()
+```
+The plot we created above indicates that for every year of increase in age, systolic blood pressure reduces by 0.09 beats per minutes. The negative relationship is highlighted by the slight down slope of the regression line. 
+
+If you recall, at the beginning of this lecture we had hypothesized that systolic blood pressure increases with increasing age. While this is not an exhaustive investigation, it appears that there is a roughly positive relationship between age and systolic blood pressure. 
+
+### Creating Functions
+
+
+### Looping Through Files
+
+
+
+
+
+
+

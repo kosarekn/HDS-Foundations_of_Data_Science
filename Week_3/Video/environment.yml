@@ -1,0 +1,32 @@
+name: my_first_env
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - ca-certificates=2025.1.31=h8857fd0_0
+  - libblas=3.9.0=31_h7f60823_openblas
+  - libcblas=3.9.0=31_hff6cab4_openblas
+  - libcxx=20.1.1=hf95d169_0
+  - libffi=3.2.1=1
+  - libgfortran=5.0.0=14_2_0_h51e75f0_1
+  - libgfortran5=14.2.0=h51e75f0_1
+  - liblapack=3.9.0=31_h236ab99_openblas
+  - libopenblas=0.3.29=openmp_hbf64a52_0
+  - libsqlite=3.46.0=h1b8f9f3_0
+  - libzlib=1.2.13=h87427d6_6
+  - llvm-openmp=20.1.1=ha54dae1_1
+  - ncurses=6.5=h0622a9a_3
+  - numpy=1.19.5=py36h08b5fde_2
+  - openssl=1.1.1w=h8a1eda9_0
+  - pip=21.3.1=pyhd8ed1ab_0
+  - python=3.6.11=hc38f9c5_2_cpython
+  - python_abi=3.6=2_cp36m
+  - readline=8.2=h7cca4af_2
+  - setuptools=58.0.4=py36h79c6626_2
+  - sqlite=3.46.0=h28673e1_0
+  - tk=8.6.13=h1abcd95_1
+  - wheel=0.37.1=pyhd8ed1ab_0
+  - xz=5.2.6=h775f41a_0
+  - zlib=1.2.13=h87427d6_6
+prefix: /opt/anaconda3/envs/my_first_env
