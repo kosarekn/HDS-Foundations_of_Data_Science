@@ -309,7 +309,22 @@ setwd("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Da
 for (file in filenames){
   the_file <- read.csv(file)
   age_var <- the_file$age
-  histogram <- ggplot(the_file, aes(x=age_var)) + geom_histogram(bins = 10, fill = "darkgreen")
+  histogram <- ggplot(the_file, aes(x = age_var)) + 
+    geom_histogram(bins = 10, 
+                   fill = "darkgreen", 
+                   color = "black", 
+                   alpha = 0.7) +
+    labs(
+      title = paste("Age Distribution -", file),
+      x = "Age (years)", 
+      y = "Frequency"
+    ) +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(hjust = 0.5, face = "bold"),
+      axis.title = element_text(face = "bold"),
+      panel.grid.minor = element_blank()
+    )
   plot(histogram)
 }
 ```
@@ -321,8 +336,25 @@ setwd("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Da
 for (file in filenames){
   the_file <- read.csv(file)
   age_var <- the_file$age
-  box_plot <- ggplot(the_file, aes(x=sex, y=age, fill = sex)) +
-  geom_boxplot() + scale_fill_manual(values=c("goldenrod1","darkgray"))
+  box_plot <- ggplot(the_file, aes(x = sex, y = age, fill = sex)) +
+    geom_boxplot(alpha = 0.7, 
+                 color = "black", 
+                 outlier.color = "red", 
+                 outlier.shape = 16,
+                 width = 0.5) +
+    scale_fill_manual(values = c("goldenrod1", "darkgray")) +
+    labs(
+      title = paste("Age Distribution by Sex -", file),
+      x = "Sex", 
+      y = "Age (years)"
+    ) +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(hjust = 0.5, face = "bold"),
+      axis.title = element_text(face = "bold"),
+      legend.position = "none",
+      panel.grid.minor = element_blank()
+    )
   plot(box_plot)
 }
 ```
@@ -336,8 +368,26 @@ library(harrypotter)
 for (file in filenames){
   the_file <- read.csv(file)
   age_var <- the_file$age
-  box_plot <- ggplot(the_file, aes(x=race, y=age, fill = race)) +
-  geom_boxplot() + scale_fill_hp_d(option = "ronweasley")
+  box_plot <- ggplot(the_file, aes(x = race, y = age, fill = race)) +
+    geom_boxplot(alpha = 0.7, 
+                 color = "black", 
+                 outlier.color = "red", 
+                 outlier.shape = 16,
+                 width = 0.5) +
+    scale_fill_hp_d(option = "ronweasley") +
+    labs(
+      title = paste("Age Distribution by Race -", file),
+      x = "Race", 
+      y = "Age (years)"
+    ) +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(hjust = 0.5, face = "bold"),
+      axis.title = element_text(face = "bold"),
+      legend.position = "none",
+      panel.grid.minor = element_blank(),
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
   plot(box_plot)
 }
 ```
