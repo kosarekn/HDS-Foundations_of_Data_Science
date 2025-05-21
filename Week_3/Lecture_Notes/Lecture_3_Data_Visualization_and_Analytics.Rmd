@@ -149,6 +149,7 @@ ggplot(data_df_sub, aes(x = RIDAGEYR, y = BPXOSY1)) +
   ) +
   theme_minimal()    
 ```
+### Linear Regression
 I don't know about you, but I can not discern any sort of relationship between our two variables by just looking at this plot with a bunch of points. To enlighten ourselves, we can add a regression line to our plot. A regression line is a straight line that best represents the relationship between two variables in a scatter plot. Specifically, in linear regression, it models the expected values of a dependent variable (outcome) as a linear function of an independent variable (predictor). In our case, the slope of this line tells us how much change in systolic blood pressure is expected per unit change in age. 
 
 In the code chunk below, we first fit a linear model to our data. For our purposes, we are assuming a linear relationship between the two variables. In future classes you will learn to fit different types of models to your data. After fitting the model we extract the coefficients so that they can be added to the scatter plot with the regression line. We then create the same scatter plot as above, but include the function `geom_smooth()` with `method="lm"` to indicate that we will be adding a linear regression line to our plot. 
@@ -185,11 +186,243 @@ The plot we created above indicates that for every year of increase in age, syst
 If you recall, at the beginning of this lecture we had hypothesized that systolic blood pressure increases with increasing age. While this is not an exhaustive investigation, it appears that there is a roughly positive relationship between age and systolic blood pressure. 
 
 ### Creating Functions
+Remember above when we created the three paneled figure of the histogram, violin plot, and cumulative distribution plot? We ended up writing that code twice, first with the age variable and then again with the systolic blood pressure variable. This is repetitive and we are lazy. We don't want to painstakingly write out the same code twice with slight variation of input variable and plot titles. It is very easy to make mistakes programming like this. 
 
+Instead, we can write a function that creates the histogram, violin, and cumulative distribution plots we generated above by simply inputting a few key variables into our function. Let's try this below:
+
+```{r}
+create_distribution_plots <- function(data, variable, fill_color = "blue") {
+  # Histogram
+  p1 <- ggplot(data, aes(x = !!sym(variable))) +
+    geom_histogram(bins = 30, fill = fill_color, alpha = 0.7) +
+    labs(title = paste("Histogram of", variable),
+         x = variable,
+         y = "Frequency")
+  
+  # Violin plot
+  p2 <- ggplot(data, aes(x = "", y = !!sym(variable))) +
+    geom_violin(fill = fill_color, alpha = 0.7) +
+    labs(title = paste("Violin Plot of", variable),
+         x = "",
+         y = variable)
+  
+  # Cumulative Distribution Function
+  p3 <- ggplot(data, aes(x = !!sym(variable))) +
+    stat_ecdf(geom = "step", color = fill_color) +
+    labs(title = paste("CDF of", variable),
+         x = variable,
+         y = "Cumulative Probability")
+  
+  # Arrange plots
+  plots <- ggarrange(p1, p2, p3,
+                     ncol = 2,
+                     nrow = 2)
+  
+  return(plots)
+}
+
+# Usage example:
+# For Age
+ridageyr_plots <- create_distribution_plots(data_df, "RIDAGEYR", "blue")
+
+# For Systolic Blood Pressure
+BPXOSY1_plots <- create_distribution_plots(data_df, "BPXOSY1", "red")
+
+# Display plots
+print(ridageyr_plots)
+print(BPXOSY1_plots)
+```
+
+In the above code, we create a function called create_distribution_plots. This function takes three inputs: `data`, `variable`, and `fill_color`. When we call our function, we call it like this: `create_distribution_plots(data=data_df, variable="RIDAGEYR", fill_color="blue")`. Notice that we have set each input to objects that we have already generated. The `data` is our data_df which contains the variables in which we are interested. The the variables we would like to plot are age and systolic blood pressure. If we wish to generate plots for the age variable,for example, we put `RIDAGEYR` in for the `variable` input. Finally, the `fill_color` indicates what color we would like the plots to be. 
+
+The inputs we define above will be applied to our function. Take, for example, our first plot, the histogram. This histogram is generated using ggplot as we explored in our last live lecture. The data frame used as input here is whatever we have assigned to `data`. This essentially tells ggplot to look in `data_df` to find the input `variable`. On that note, the `variable` in the histogram is indicated as `x = !!sym(variable)`. The `!!sym()` function does some funny things to our input variable. The `!!` removes the quotes around `"RIDAGEYR"` and then converts it from a character string to a symbol. This tells R to read our age variable as something more than a string. If we were to simply input `x = variable`, R would read this as `x = "RIDAGEYR"`, which is a string. We would return an error stating that this string is not found in the columns of data_df. 
+
+Once we have defined what data we would like applied to our plotting function, we indicate to R that we would like to generate a histogram using the `geom_histogram()` function from ggplot. Within this function we define how many `breaks` we want to see in our histogram. This is how many bars we want in our histogram. More breaks means visualizing more granularity in the data. Next we indicate the `fill_color`. This fill color is the color we are choosing to add to our plot. The variable string is then used as input for the title of the plot as well as the x-axis label. This same formatting stands for the violin plot as well as the cumulative distribution function plot, with some variation. 
+
+We can now apply more than just the age and systolic blood pressure variables to our function. Let's generate these plots for two other variables within data_df. 
+
+```{r}
+## Run for diastolic blood pressure
+diastolic_bp_plots <- create_distribution_plots(data_df, "BPXODI1", "orange")
+
+## Run for heart rate
+heart_rate_plots <- create_distribution_plots(data_df, "BPXOPLS1", "darkgreen")
+
+## Print out results
+print(diastolic_bp_plots)
+print(heart_rate_plots)
+```
+This is much easier than writing out the code again and again for different variables! I like to generate functions for common processes I encounter in my work. For example, I conduct a lot of differential gene expression analysis in bulk RNA-seq data. Some of the most common plots to display in this type of analysis include volcano plots and heat maps. As such, I have plotting functions I source in my R code that quickly generate volcano plots and heat maps from my analysis. How can you find out what types of plots are commonly generated in your line of work? What type of plots do you often see in your line of work? 
+
+Thus far, we have generated plots from single data sources, but what if we have multiple data files with the same type of information? Let's say we have the same NHANES data files from 2021-2023 we have been working with as well as the files from 2015-2016 and 2017-2018. How could we go about automating generating these plots from multiple files for multiple variables? 
 
 ### Looping Through Files
 
+Let's start with a simple example. I have generated five sample data sets with random data in the Data directory for this week in my GitHub as well as on our class Canvas page. These files follow the naming scheme "sample_data_X.csv". Let's begin by simply learning how to read in this data using `list.files()`. This function navigates to the path indicated. Within that path, this function looks for files with the naming pattern or extension you provide in the `pattern` argument. This means you can provide `.csv` or another unique naming scheme like `sample`, shown in the plots code chunks below
 
+```{r}
+## Using .csv as the pattern search
+filenames <- list.files(path = "/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Data", pattern = ".csv")
+print(filenames)
+```
+
+```{r}
+## Using sample as the pattern search
+filenames <- list.files(path = "/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Data", pattern = "sample")
+print(filenames)
+```
+We have saved the vector of files we would like to work with in a variable called `filenames`. When we print out `filenames` we return the names of the files with which we wish to work.  
+
+In the next step, we will loop through each of the files in`filenames` and print out the first five rows of these data frames.
+
+```{r}
+setwd("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Data")
+
+for (file in filenames){
+  the_file <- read.csv(file)
+  print(head(the_file))
+}
+```
+We can see that we have five data frames with a Participant Identifier, Age, Sex, Race, Socioeconomic Status, Disease Status, and C Reactive Protein Score. When we are presented with new data, it's always important to conduct some preliminary investigations into the spread of the data within each variable using summary statistics and plots. Let's begin by simply looking at the summary statistics for the `age` category.
+
+```{r}
+setwd("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Data")
+
+for (file in filenames){
+  the_file <- read.csv(file)
+  print(summary(the_file$age))
+}
+```
+As a reminder, the "summary()" provides us with quite a bit of information for each file:
+
+* Min. - the minimum of our data column
+* 1st Qu. - the first quartile is the value under which 25% of data points are found when they are arranged in increasing order.
+* Median - the median value of our data column
+* 3rd Qu. - the third quartile is the value under which 75% of the data points are found when they are arranged in increasing order.
+* Max - the maximum of our data columns
+
+It's great to have information on our age data that we can put in a table, but we might find it useful to visualize our data with a figure. We can observe the distribution of the age information using a histogram. Let's generate a histogram for age in each of our five studies.
+
+```{r}
+setwd("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Data")
+
+for (file in filenames){
+  the_file <- read.csv(file)
+  age_var <- the_file$age
+  histogram <- ggplot(the_file, aes(x=age_var)) + geom_histogram(bins = 10, fill = "darkgreen")
+  plot(histogram)
+}
+```
+We can see from this histogram that the age variable for each of sample data sets follows a roughly normal distribution. We can also visualize more than one variable using a box plot. Let's look at the distribution of age by sex.
+
+```{r}
+setwd("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Data")
+
+for (file in filenames){
+  the_file <- read.csv(file)
+  age_var <- the_file$age
+  box_plot <- ggplot(the_file, aes(x=sex, y=age, fill = sex)) +
+  geom_boxplot() + scale_fill_manual(values=c("goldenrod1","darkgray"))
+  plot(box_plot)
+}
+```
+I personally would like to introduce all of you to the Harry Potter R color palette by creating bar plots for the distribution of age across the race category. Here I am implementing the "ronweasley" color scale. You can explore the use of this color palette [here](https://github.com/aljrico/harrypotter).
+
+```{r}
+setwd("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Data")
+
+library(harrypotter)
+
+for (file in filenames){
+  the_file <- read.csv(file)
+  age_var <- the_file$age
+  box_plot <- ggplot(the_file, aes(x=race, y=age, fill = race)) +
+  geom_boxplot() + scale_fill_hp_d(option = "ronweasley")
+  plot(box_plot)
+}
+```
+
+
+### Putting It All Together!
+Returning to our NHANES example, NHANES releases data at regular intervals. I have downloaded the data files for the demographic and examination data from 2015-2016, 2017-2018, and 2021-2023. These files can be found in the Data directory for this week in my GitHub as well as on our class Canvas page. How can we automate reading in these files?
+
+```{r}
+# Load required libraries
+library(haven)
+library(dplyr)
+
+# Set the path to the data files
+data_path <- "/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Data"
+
+# List all .xpt files in the directory
+xpt_files <- list.files(path = data_path, pattern = ".xpt")
+
+# Create empty lists to store BPXO and DEMO dataframes
+bpxo_dfs <- list()
+demo_dfs <- list()
+
+# Read in BPXO and DEMO files
+for (file in xpt_files) {
+  # Read the file
+  df <- read_xpt(file.path(data_path, file))
+  
+  # Separate BPXO and DEMO files
+  if (grepl("BPXO", file)) {
+    bpxo_dfs[[file]] <- df
+  } else if (grepl("DEMO", file)) {
+    demo_dfs[[file]] <- df
+  }
+}
+
+# Merge corresponding BPXO and DEMO data frames
+merged_dfs <- list()
+
+for (bpxo_name in names(bpxo_dfs)) {
+  # Find the corresponding DEMO file by matching years
+  matching_demo <- grep(gsub("BPXO", "DEMO", bpxo_name), names(demo_dfs), value = TRUE)
+  
+  merged_dfs[[bpxo_name]] <- merge(bpxo_dfs[[bpxo_name]], 
+                                          demo_dfs[[matching_demo]], 
+                                          by = "SEQN")
+}
+
+names(merged_dfs) <- c("years2015-2016","years2017-2018","years2021-2023")
+```
+
+In the above code, we once again leverage the `haven` package to read in .xpt files. As we did with our sample data in the previous exercise, we define our path to the location of the data and tell the `list.files()` function to look for files with the extension .xpt. 
+
+Having obtained the list of files with .xpt extensions, we then generate two empty lists, one for the examination data and the other for the demographic data. Next, we loop through each file. If the file has "BPOX" in the file name, we add that data frame to the examination list. Otherwise, it is added to the demographics list. 
+
+Now we have two lists, one containing the three demographics data frames and the other containing the three examination data frames. Next, we loop through the three examination data frame files and find the matching demographic files using the `grep()` function. `grep()` takes three arguments: the text we are searching for, the vector or string you are searching in, and whether or not you would like the actual value or the index of the value returned to you. In our case, we are inputting `gsub("BPXO", "DEMO", bpxo_name)` as the text we are searching for. What `gsub()` is saying replace "BPXO" with "DEMO" in our `bpxo_name`. Since we are looping through the names of the examination files that begin with "BPXO" the input to our `gsub()` function looks like this: `gsub("BPXO", "DEMO", "BPXO_2015-2016.xpt")`, for example. This would return: `"DEMO_2015-2016.xpt"`. The `grep()` function then searches for this data frame in the names of the demographics data frames. Since we have added `value = TRUE` our code will return the actual value of that index and not just the index itself. 
+
+Great! Now we have found matching demographic and examination data frames. Earlier in the code we initiated another empty list called `merged_dfs` to which we will add the merged demographic and examination data frames from one year. To do this we employ the `merge()` function. 
+We search for the corresponding demographic and examination data frames for a single year in their respective vectors of data frames and merge those data frames by the participant ID, "SQEN". This combind data frame is then added to the vector or `merged_dfs` under the name of the examination data frame for that year. 
+
+At the end of this chunk of code, I renamed the merged data frames within the list, just because I like this naming scheme better. Now we have a list of merged data frames with which we can make some attractive plots! 
+
+Remember that nice function we created earlier called `create_distribution_plots`? We can use a for loop to create the violin, histogram, and cumulative distribution plot for each of the data frames in our list of merged data frames. In the following code I generate these three plots for the age variable in in each of the three data frames. 
+
+
+```{r}
+## Loop through the data frames in the merged 
+for (df in merged_dfs){
+  print(create_distribution_plots(df, "RIDAGEYR", "#81555a"))
+}
+```
+
+Challenge: Can you make this work for different variables? Hint - you might need to change the names of some of the variables in the data frames in order to automate this data frame. Can you also alter the `create_distribution_plots()` function to add titles indicating which years the plots are from? 
+
+### Conclusions
+
+In today's lesson we expanded upon our data visualization and analytics skills with the following:
+
+* Advanced Data Analytics- we created multi-panel visualizations with histogram, violin plots, and cumulative distribution plots. We even generated scatter plots with linear regression lines and printed the equation for the best fit line on our scatter plot. 
+
+* Advanced Data Visualization Using Custom Functions: We developed a custom create_distribution_plots() function to automate generation of three panel distribution plots for any variable. 
+
+* Advanced Data Wrangling and Visualization: We looped through two different types of files to implement built in functions as well as our custom functions.
+
+While the previous three lectures have covered the ins and outs of R, in the next live lecture we will be moving to bash programming.
 
 
 
