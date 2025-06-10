@@ -1,7 +1,5 @@
 # Introduction to Bash Scripting
 
-This lecture will cover: 
-
 ## Introduction to the Shell and Bash
 
 * What is a shell? 
