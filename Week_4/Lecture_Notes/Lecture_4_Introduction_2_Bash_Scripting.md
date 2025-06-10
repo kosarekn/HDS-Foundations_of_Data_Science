@@ -219,5 +219,208 @@ Here is a summary of the commands we used in this section:
 | rm      | Remove files or directories         | Deletes files or folders permanently |
 | cat     | Display file contents              | Prints text file content to terminal |
 
-* Viewing file contents
-* File and directory manipulation
+* Viewing File Contents
+
+In the previous section we used the `cat` command to display everything in our file, but what if we just wan to display part of that file? Afterall, some of the files we will be working with will be exceptionally large and we don't want to pint out everything in the file. In order to do this we can use the following commands:
+
+1) head
+
+The `head` command shows the first few lines of a file, By default, it displays the first 10 lines. I have provided you with a sample RNA-seq count matrix in the Data directory for this week on my GitHub. This file is also available on our Canvas page. Download this file and save it somewhere on your local machine where you can find it. I'll be referenceing this file in my GitHub directory on my local machine. Let's use the `head` command to display the first few lines of this file. 
+
+```bash
+head /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/data.csv
+```
+
+The return from this command should display the column names, which are sample names, and the rows, which are gene names. You should also see some pseudo count data for each gene and sample pair. 
+
+What if you want to display more than just the first 10 lines of the file? We can use the flag `-n` to indicate the number of lines we would like to print out. For example, the code below displays the first 20 lines of the file. 
+
+```bash
+head -n 20 /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/data.csv
+```
+
+2) tail
+
+Antithetical to `head`, `tail` displays the last few lines of a file and also defaults to 10 lines. 
+
+```bash
+tail /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/data.csv
+```
+
+The above code will display the last 10 lines of our file. 
+
+
+```bash
+tail -n 20 /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/data.csv
+```
+
+As we did with the `head` command we can ask for more than 10 lines to be displayed in the code above. 
+
+3) less
+
+The less command lets you open a file and navigate it one screen at a time. 
+
+```bash
+less /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/data.csv
+```
+
+When you run this command, you will observe the the contents of the file fill your terminal. You can use the Page Up/Down arrows to scroll through. You can also use `/search_term` to find occurences of certain words or phrases. 
+
+```bash
+/"Gene123"
+```
+
+To exit, simply press `q` on your keyboard for "quit". 
+
+4) wc
+
+Though not strictly a viewing command, `wc` provides quick stats about file size, word count, and line count which help when insecting a data set. 
+
+```bash
+wc /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/data.csv
+```
+
+The above code displays the lines, words, and bytes in our file. If we just want the lines we can use the `-l` flag. 
+
+```bash
+wc -l /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/data.csv
+```
+
+This line of code displays just the number of lines in our data file. 
+
+| Command | Purpose                                  | Brief Description                            |
+| --------| -------------------------------------- | --------------------------------------------|
+| head    | Show first lines of a file                | Preview the start of a file (default 10 lines) |
+| tail    | Show last lines of a file                 | View end of a file; can monitor live updates (`-f`) |
+| less    | Interactive file viewer                   | Scroll, search, and navigate large files    |
+| wc      | Count lines, words, bytes in a file      | Quickly get file size stats                   |
+
+## Bash Scripting Basics
+
+Bash scripting allows you to automate sequences of commands and build programmable workflows. This section introduces fundamental scripting concepts, including file and directory maniulation and common shell operations like piping and output redirection. 
+
+* Writing and Running a Bash Script
+
+In a video associated with this class, we learned how to submit a job on the HPC system using a bash slurm submission script. The script we had this job run was an R script. We can also create files to run bash scripts themselves. 
+
+Let's create a bash script that makes a directory for an imaginary project. Within that directory, we will create a subdirectory called "data". We will also create a new file that contains our project notes. We will then copy the data.csv file we were previously working with into our newly created "data" subdirectory and then rename that file. 
+
+Copy and paste the below script into a new file and save that file as "my_first_bash_script.sh". Make sure that you correct the paths to be specific to your machine! 
+
+```bash
+#!/bin/bash # This line tells your computer to recognize the bash scripting language
+
+# Create a project folder
+mkdir -p /Users/f002yt8/Desktop/my_project/data
+
+# Create an empty text file to store notes
+touch /Users/f002yt8/Desktop/my_project/notes.txt
+
+# Copy a file into the new data directory (assuming 'data.csv' exists)
+cp /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/data.csv /Users/f002yt8/Desktop/my_project/data
+
+# Move the notes file to the data directory (renaming it at the same time)
+mv /Users/f002yt8/Desktop/my_project/data/data.csv /Users/f002yt8/Desktop/my_project/data/rnaseq_dat.csv
+
+# List the contents of the data folder
+ls -l /Users/f002yt8/Desktop/my_project/data/
+```
+
+In order to make this script executable you must run the following line:
+
+```bash
+chmod +x ./my_first_bash_script.sh
+```
+
+Then you can run the script like this:
+
+```bash
+./my_first_bash_script.sh
+```
+
+Make sure you are in the directory in which your file is located in order to run it! Otherwise, you must refer to the absolute path where thw file is located. 
+
+* Piping and Output Redirection 
+
+One command we have yet to discuss if the `grep` command. The `grep` command searches for words or phrases in a string.Piping (`|`) sends the output of one command as input to another. Let's combine these two commands to list all of the files in our directory and then find the files that contain only the extension ".csv"
+
+```bash
+ls -l /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/ | grep ".csv"
+```
+
+The only file that I have in the directory that I reference in the previous code is "data.csv". If I simply input everything before the `|` the code will return "data.csv". If I only ran everything after the `|`, I will also return the "data.csv" file. The pipe command take the output from the listing of the files and inputs it to the grep command. If I had had `grep ".txt"`, the code would return nothing. 
+
+We can also write out the output of commands, even piped commands, to new files. 
+
+In the below code, we write out the output from the command we just ran above to a file on our Desktop.
+
+```bash
+ls -l /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/ | grep ".csv" > /Users/f002yt8/Desktop/files_list.txt
+```
+
+Two other commands I would like to introduce here are the `awk` and `cut` commands. The `awk` command extract or transform columns and perform calculations. The `cut` command extracts specific columns based on a delimeter. 
+
+This example prints the second column of a .csv file:
+
+```bash
+awk -F',' '{print $2}' /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/data.csv
+```
+Similarly, this code extracts columns 1 and 3 from our .csv file. 
+
+```bash
+cut -d',' -f1,3 /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/data.csv
+```
+## Control Structures and Applications to Data Science
+
+Control structures allow your bash scripts to make decisions and perform repetitive tasks - key for automating data science workflows.
+
+* Conditional Statements: if
+
+The `if` statement lets our script execute commands based on conditions, much like in R programming. The general anatomy of an `if` statement in bash is outlined below:
+
+```bash
+if [ condition ]; then
+  # commands if true
+else
+  # commands if false (optional)
+fi
+```
+
+Let's create a simple example in which we search for our data.csv file in the directory in which it is stored:
+
+```bash
+if [ -f "/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/data.csv" ]; then
+  echo "data.csv exists."
+else
+  echo "data.csv not found."
+fi
+```
+
+* Loops
+
+- for loops are useful for iterating over a list of items.
+
+In the following example I loop through each file with a ".csv" extension and execute command on each of the files.
+
+```bash
+cd /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/
+
+for file in *.csv; do
+  echo "Processing $file"
+  head -n 5 $file
+done
+```
+
+- while loops repeat commands while a condition is still true. Take a look at the example below:
+
+```bash
+count=5
+while [ $count -gt 0 ]; do
+  echo "Countdown: $count"
+  count=$((count - 1))
+done
+echo "Blast off!"
+```
+
+This script counts down from 5 and when that condition is no longer met, the loop exits and then prints out "Blast off!". Note `-gt` is "greater than".
+
