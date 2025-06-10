@@ -424,3 +424,47 @@ echo "Blast off!"
 
 This script counts down from 5 and when that condition is no longer met, the loop exits and then prints out "Blast off!". Note `-gt` is "greater than".
 
+## Summary
+
+This concludes our foray into bash scripting. Here is a summary of everything we covered in this lecture! 
+
+1. Introduction to the Shell and Bash
+* A shell is a command-line interface allowing users to interact with their computer’s operating system by interpreting typed commands.
+
+2. Why Use Bash Scripting in Data Science?
+* File and Directory Management: Quickly navigate, organize, rename, move, and delete files/folders, or extract data parts using tools like grep, awk, and cut.
+* Automation and Reproducibility: Automate repetitive tasks to save time and share workflows, ensuring reproducible analyses.
+* High Performance Computing (HPC): Submit jobs and manage analysis workflows efficiently on HPC systems via command-line schedulers (e.g., SLURM).
+* Integration: Bash scripts can call other tools and languages, facilitating flexible, powerful pipelines.
+3. Basic Commands and Their Usage
+
+* Common commands to navigate and manipulate the filesystem:
+pwd — print current directory
+ls — list directory contents (including hidden files with ls -lah)
+cd — change directory; supports relative and absolute paths (cd ~, cd ..)
+mkdir — create directories (mkdir -p for nested)
+cp — copy files or directories (-r for recursive)
+mv — move or rename files/directories
+rm — remove files or directories (-r for recursive)
+cat — display file contents
+
+* Display and explore file contents efficiently:
+head — show first lines (head -n for custom line count)
+tail — show last lines, with option to monitor file live (tail -f)
+less — interactive file viewer with scrolling and search
+wc — count lines, words, bytes
+
+4. Bash Scripting Basics
+* Writing bash scripts with shebang #!/bin/bash.
+* Using variables (assignment without $, referencing with $).
+* Example script: create directories, make empty files (touch), copy and rename files.
+* Using piping (|) to send output of one command to another (e.g., ls | grep ".csv").
+* Using output redirection (>) to save files.
+
+5. Control Structures
+* Conditional statements (if) allow executing code blocks based on tests (e.g., check file existence).
+* Loops:
+- for loops to iterate over file lists (e.g., all .csv files).
+- while loops to repeat commands while conditions are true (e.g., countdown example).
+
+
