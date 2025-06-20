@@ -1,9 +1,30 @@
 ---
-title: "Data_Wrangling"
+title: "Data_Wrangling_Visualization"
 output: pdf_document
 date: "2025-03-03"
 ---
 
+### In Today's Lecture We Will Learn...
+
+1) Generating Random Data
+
+2) Adding and Removing Rows and Columns
+
+3) String Manipulation
+
+4) Wide and Long Format Data Frames
+
+5) Basic Plotting in R
+
+6) ggplot2 Figures
+
+7) Reading in Public Data
+
+8) Adding Statistics to Figures
+
+9) Saving Figures
+
+10) Generating Summary Statistics
 
 ### Generating Random Data
 In our previous lesson we learned about data structures, in particular we learned about data frames. As a refresher, data frames are two-dimensional structures that can hold different data types. Due to it's flexibility, data frames are a very popular way in which Data Scientists store information. 
@@ -76,6 +97,61 @@ In the above code we have created a data frame called `random_data` that contain
   * Disease Status: We sampled "Cases" and "Controls" in the same manner in which we sampled "Males" and "Females".
   * Heart_Rate: The use of `pmax` and `pmin` ensure that the values fall between 40 and 200 for hear rate. We then use `rnorm` to generate a set of 100 ages with a mean of 75 and a standard deviation of 15 years.
 
+### Adding and Removing Rows and Columns
+
+We may find it necessary to add information to our data frames. For example, we might want to add a column for "Alcohol Consumption". To do this, we can use the function `cbind()`. `cbind()` takes a vector and adds that vector as a column to your data frame. Let's try this out on our randomly generated data. 
+
+```{r}
+# Number of participants
+n=100
+
+# Generate vector to add as a column
+Alcohol_Consumption = sample(c("Yes", "No"), n, replace = TRUE)
+
+# Add the column
+random_data <- cbind(random_data, Alcohol_Consumption)
+
+# View after adding the column
+print(head(random_data))
+```
+We can also add all the information for one participant to this data frame using `rbind()`. Take a look at the code below to see an example of this:
+
+```{r}
+# Generate a vector of data to add
+participant_101 <- c("Subject_101","37","Female","Case","82","No")
+
+# Add row
+random_data <- rbind(random_data, participant_101)
+
+# Visualize output
+tail(random_data)
+```
+
+Just as we can add rows and columns, we can remove them using either the names of the columns or rows or the indices. Let's say we want to get rid of the "Alcohol_Consumption" and "Sex" columns in our data frame. To do this we can 
+
+```{r}
+# Remove using index
+random_data <- random_data[,-6]
+
+# Remove using column name
+random_data <- subset(random_data, select = -c(Sex))
+
+# Visualize after removal
+head(random_data)
+```
+We can remove rows using the code below:
+
+```{r}
+# Remove using the index 
+random_data <- random_data[-1,]
+
+# Remove using the name of the row 
+random_data <- random_data[!row.names(random_data) %in% "5",]
+
+# Visualize after removal
+head(random_data)
+```
+
 ### String Manipulation
 Above we have successfully generated random data, but what if we want to change a something about the data we input? Specifically, I might want to change the word "Subject" in "Subject_ID" to "Participant". To do this we can implement string manipulation with functions `gsub()` and `sub()`. These two functions will substitute strings or characters in a vector or a data frame with a specific string. Let's take a look at how to use these functions on our random data. 
 
@@ -96,6 +172,32 @@ print(my_string_sub)
 ```
 
 You can use string manipulation for a number of operations in data cleaning, feature engineering, data integration and merging, text analysis, and natural language processing. 
+
+### Wide vs. Long Format
+Up until now, we have been working with what is referred to as a "wide" format data frame. This is the type of data frame most of us are likely familiar with from classes and work. Each subject or observational unit in a wide form data frame has a single row. Different variables, like age and sex, are stored in separate columns. Wide format is useful for comparing observational units, in our case, the subjects in our study. 
+
+A second type of data frame format is a "long" format. In a "long" format data frame each observation or measurement has its own row. Typically, we will ave columns identifying the subject and then the values. While this is not a data format that that us humans like to work with, many R packages and functions require that your data be in "long" format. Let's convert our "wide" form data from into a "long" form using the R package `tidyr`.
+
+```{r}
+# Read in library
+library(tidyr)
+
+# Convert from wide to long format
+random_data_age_sex <- tidyr::pivot_longer(random_data,cols=c("Age","Heart_Rate"))
+
+# Visualize after conversion
+head(random_data_age_sex)
+```
+Similarly, to convert from "long" format back to "wide" format, we can use the tidyr `pivot_wider()` function. 
+
+```{r}
+# Convert from long to wide
+random_data_age_sex_wide <- tidyr::pivot_wider(random_data_age_sex)
+
+# Visualize after converting from long to wide
+head(random_data_age_sex_wide)
+```
+Now that we have gotten the hang of data frame manipulation, let's begin to generate some basice plots in R. 
 
 ### Basic Plotting in R
 
@@ -370,7 +472,9 @@ In today's lesson we covered fundamental skills that are essential for data scie
 
 * Generated Random Data: Simulating data is crucial for testing models, validating assumptions, and debugging code when real-world data is unavailable.
 
-* Implemented String Manipulation: Cleaning and processing text data is a core part of data wrangling, ensuring consistency and accuracy in data sets. 
+* Implemented String Manipulation: Cleaning and processing text data is a core part of data wrangling, ensuring consistency and accuracy in data sets.
+
+* Data Frame Format Conversion: Switching between wide and long data frame formats for ease of plotting and visualization. 
 
 * Generated Basic R Plots: Generation of quick plots is key to exploratory data analysis, helping to uncover patterns and insights in data.
 
