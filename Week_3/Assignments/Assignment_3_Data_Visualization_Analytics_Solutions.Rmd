@@ -1,0 +1,93 @@
+---
+title: "Assignment_3_Data_Visualization_Analytics_Solutions"
+output: pdf_document
+date: "2025-06-24"
+---
+
+1) Load in the following files from the Data directory for Week 3:
+- ALB_CR_2017-2018.xpt
+- KIQ_U_2017-2018.xpt
+- DEMO_2017-2018.xpt
+
+a)After reading in the data, take a look at the head of each of these files. There is tons of information in there, but we will only be working with parts of each of these data frames. It's your job to pull data from these data frames to create a single data frame containing these columns from each of these files:
+- ALB_CR_2017-2018.xpt: SEQN, URXUMA, URXUCR
+- KIQ_U_2017-2018.xpt: KIQ022
+- DEMO_2017-2018.xpt: RIDAGEYR, RIAGENDR
+
+b) After creating the data frame, rename the columns using this key:
+- SEQN : Subject_ID
+- URXUMA: Albumin
+- URXUCR: Creatinine
+- RIDAGEYR: Age
+- RIAGENDR: Sex
+- KIQ022: Weak_Kidney (Have you ever been told you have weak or failing kidneys)
+
+c) You will notice that the "Sex" variable is coded with "1" for "Male" and "2" for "Female". You will also notice that "Weak_Kidney" variable is coded with "1" for "Yes", "2" for "No", "7" for "Refused", and "9" for "Don't Know". Recode these levels from the numbers to the correct categorical variables described above. Hint: Try out the `tidyverse` package and take a look at the function called `recode()`.
+```{r}
+## Load the haven library to read in .xpt files
+library(haven)
+## Recoding the values in the columns
+library(tidyverse)
+
+## Read in files
+lab_df <- read_xpt("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Data/ALB_CR_2017-2018.xpt")
+kidney_df <- read_xpt("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Data/KIQ_U_2017-2018.xpt")
+demographics_df <- read_xpt("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Data/DEMO_2017-2018.xpt")
+
+## Take a look at the data
+head(lab_df)
+head(kidney_df)
+head(demographics_df)
+
+## Subset data frames
+kidney_df <- subset(kidney_df, select = c(SEQN,KIQ022))
+lab_df <- subset(lab_df, select = c(SEQN, URXUMA, URXUCR))
+demographics_df <- subset(demographics_df, select = c(SEQN, RIDAGEYR, RIAGENDR))
+
+dat_df <- merge(demographics_df, lab_df, by = "SEQN")
+dat_df <- merge(dat_df, kidney_df, by = "SEQN")
+
+## Rename columns and values in categorical variables
+colnames(dat_df) <- c("Subject_ID","Age","Sex","Albumin","Creatinine","Weak_Kidney")
+dat_df <- dat_df %>% mutate(Sex = recode(Sex, `1` = "Male", `2` = "Female"))
+dat_df <- dat_df %>% mutate(Weak_Kidney = recode(Weak_Kidney, `1` = "Yes", `2` = "No",
+                                                 `7` = "Refused", `9` = "Don't Know"))
+## View data
+head(dat_df)
+```
+
+2) Create a panel of three plots:
+
+a) 
+```{r}
+library(ggplot2)
+## Generate a grid of plots
+## Violin plot
+p1 <- ggplot(dat_df, aes(x = Sex, y = Creatinine, fill = Sex)) +
+  geom_violin(alpha = 0.7) +
+  scale_fill_manual(values = c("Male" = "blue", "Female" = "red")) +
+  labs(title = "Violin Plot of Creatinine",
+       x = "",
+       y = "Creatinine (mg/dL)")
+
+print(p1)
+
+## Scatter plot of albumin and creatinine
+p2 <- ggplot(dat_df, aes(Creatinine,Albumin)) + geom_point() + 
+  geom_smooth(method="lm") +
+  labs( y="Albumin (ug/ml)", 
+       x="Creatinine (mg/dL)", 
+       title="Scatterplot of Albumin (ug/ml) \nvs. Creatinine (mg/dL)")
+print(p2)
+
+## Denisty plot of albumin
+p3 <- ggplot(dat_df, aes(Creatinine)) + geom_density(aes(fill=factor(Sex)), alpha=0.8) + 
+    labs(title="Density of Creatinine (mg/dL) by Sex", 
+         subtitle="Creatinine (mg/dL) by Sex",
+         x="Creatinine (mg/dL)",
+         fill="Sex")
+
+plots <- ggarrange(p1, p2, p3, ncol = 2, nrow = 2)
+print(plots)
+```
+

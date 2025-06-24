@@ -1,5 +1,5 @@
 ---
-title: "Assignment_2_Data_Wrangling_Visualization"
+title: "Data_Wrangling_Visualization_In_Class_Exercise_Solutions"
 output: pdf_document
 date: "2025-06-20"
 ---

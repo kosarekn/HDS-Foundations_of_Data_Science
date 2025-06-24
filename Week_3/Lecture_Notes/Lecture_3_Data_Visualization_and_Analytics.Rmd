@@ -21,8 +21,8 @@ These files have a funny extension, .xpt, which is a binary file format develope
 library(haven)
 
 ## Read in files
-blood_pressure_df <- read_xpt("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Data/BPXO_L.xpt")
-demographics_df <- read_xpt("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Data/DEMO_L.xpt")
+blood_pressure_df <- read_xpt("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Data/BPXO_2021-2023.xpt")
+demographics_df <- read_xpt("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Data/DEMO_2021-2023.xpt")
 
 ## Take a look at the data
 head(blood_pressure_df)

@@ -1,0 +1,56 @@
+---
+title: "Assignment_2_Data_Wrangling_Visualization"
+output: pdf_document
+date: "2025-06-24"
+---
+
+1) Generating random data is a useful skill. An exercise such as this is not only useful for developing data wrangling skills, but we can also use the resulting data for training and testing sets in machine learning. For this first exercise, I would like you to generate a data frame of random data with the following attributes:
+
+a) The data frame should contain the following columns: 
+- Participant_ID: Generate reasonable participant IDs such as "Participant_001", or something similar. 
+- Sex: Male and Female
+- Age: Should follow a normal distribution and be bound between the ages 18 and 90.
+- Activity_Status: Should contain the levels "Inactive", "Lightly Active", "Average Activity", and "Very Active".
+- Disease_Status: Should contain "Case" and "Control" levels. Participants with a systolic blood pressure greater than or equal to 150 and a diastolic blood pressure greater than or equal to 95 should be considered a "Case", otherwise the participant should be considered a "Control". 
+- Systolic_Blood_Pressure: The distribution from which the systolic blood pressure values should be taken is a normal distribution with a minimum of 110 and a maximum of 200. The mean should be 120 and the standard deviation should be 30. 
+- Diastolic_Blood_Pressure: The diastolic blood pressures should be dependent on the systolic blood pressures if a systolic blood pressure is less than or equal to 120 than the diastolic blood pressure should follow a normal distribution where the minimum is 70 and the maximum is 100 with a mean of 80 and a standard deviation of 5. Otherwise, the diastolic blood pressure should have a minimum of 90 and a maximum of 150. This should also follow a normal distribution. The mean should be 100 abd the standard deviation should be 5.
+
+b) The data set should contain 100 participants
+
+```{r}
+
+```
+2) Convert the data frame you generated above from wide to long format based on the systolic and diastolic blood pressure columns. Make sure you take a look at the column names and how the data frame is now formatted after converting to long form!
+```{r}
+
+```
+
+3) As Data Scientists we will be asked to generate some neat looking figures. In the following questions, generate ggplot figures using the long format data you generated in the previous question, unless otherwise specified. 
+a) Generate a grouped ggplot2 box plot of the systolic and diastolic blood pressures in cases and controls. The x-axis should be the blood pressure types. The y-axis should be the blood pressure values. The fill should be the disease status: case or control. 
+
+```{r}
+
+```
+
+b) Generate a ggplot2 histogram of the systolic and diastolic blood pressures. Color the bars by disease status: case and control.
+```{r}
+
+```
+
+c) Using the wide format data frame, generate a scatter plot of systolic blood pressure on the x-axis and diastolic blood pressure on the y-axis. Once again, color the points by disease status: case and control. 
+```{r}
+
+```
+
+4) Building off the code you used to generate the box plot above, add code that runs a wilcoxon rank sum test and display the resulting p-values comparing the cases and controls in the diastolic and systolic blood pressures on your box plot. Save your figure as a .png file and upload it with the submission for this assignment. After completing this, report the summary statistics for the systolic and diastolic blood pressures separately. 
+
+```{r}
+
+```
+
+5) Remove the systolic and diastolic blood pressure columns in the wide format data frame. Generate a heart rate column instead and add that to the data frame. The heart rates should be dependent on the level of activity of the participant. Participants who are "Inactive" should have a heart rate taken from a normal distribution with a minimum of 100 and a maximum of 200. The mean of this distribution should be 150 and have a standard deviation of 20. If the participant is "Lightly Active", their heart rate should be taken from a normal distribution with a minimum of 80 and a maximum of 99. The mean of this distribution should be 85 and the standard deviation should be 20. Finally, if the paticipant is "Average Activity" or "Very Active", their heart rate shoul dbe taken from a normal distribution with a minimum of 40 and a maximum of 70. The mean of this distribution should be 50 and the standard deviation 20. 
+
+```{r}
+
+```
+

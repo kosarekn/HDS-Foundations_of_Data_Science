@@ -1,0 +1,38 @@
+---
+title: "Data_Wrangling_Visualization_In_Class_Exercises"
+output: pdf_document
+date: "2025-06-24"
+---
+
+1) Download the file In_Class_Exercises_Arsenic.csv file associated with this week's in class assignment. This data is adapted from the 2015-2016 National Health and Nutrition Examination Survey (NHANES). I've truncated the data to include only a few demographic variables along with urinary arsenic levels. Using base R, generate a quick box plot displaying the total arsenic levels by gender. Make sure that you provide appropriate labels to the x- and y- axes as well as the main title. Add some color to your plot too! 
+
+Save this file as a .png. Play around with widths and heights of the plots to get them just right. 
+```{r setup, include=TRUE}
+
+```
+
+2) Using `ggplot2()`, generate another box plot using the data frame of NHANES data from the previous question, but this time make it a box plot grouped by gender on the y-axis. Break up each of the groups by marital status. Add a jitter to each of the box plots. 
+
+```{r}
+
+```
+
+3) Generate a violin plot of the total arsenic levels by marital status. Conduct a Wilcoxon Rank Sum test and report the p-value between the Married and Never Married participants on the violin plots. 
+
+```{r}
+
+```
+
+4) Generate your own random data of 200 participants containing the following columns: Participant_ID, Age, Sex, BMI, Ferritin_Level, and Disease_Status. Make it so that the "Cases" have generally lower ferritin levels. Normal ferritin levels are ~20–500 ng/mL in males and ~20–200 ng/mL in women. Make sure that BMIs are reasonable too! BMI is usually a normally distributed statistic centered around 25 (normal range: ~18.5–30+). Age should be just adults 18-99. Having done that, provide summary statistics for the ferritin levels. 
+
+```{r}
+
+```
+
+5) Convert the data frame to long format from wide format on the Age and Ferratin_Level columns. Remove the Sex column from this data frame. 
+```{r}
+
+```
+
+
+
