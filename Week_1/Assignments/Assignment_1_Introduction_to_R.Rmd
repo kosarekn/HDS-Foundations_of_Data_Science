@@ -4,7 +4,7 @@ output: pdf_document
 date: "2025-03-03"
 ---
 
-###Welcome to the first assignment of FoDS!
+###Welcome to the first assignment of Foundations of Data Science!
 
 #Instructions
 * Write your code in the R code chunks provided.

@@ -1,9 +1,3 @@
----
-title: "Introduction_to_R_Class_Exercises"
-output: pdf_document
-date: "2025-03-03"
----
-
 Good Day QBS 103 Crew!
 
 Please work in groups to solve the problems provided in our very first in class assignment. If you complete this early, you are free to leave before our class time runs out. If you are unable to complete these exercises before the end of class, you can continue at home, though it is not required that you do so. These will not be graded!
@@ -13,52 +7,78 @@ Please work in groups to solve the problems provided in our very first in class 
 a <- 3.14
 b <- "pie"
 c <- 3
+
+str(a)
+str(b)
+str(c)
+
+numeric
+character
+numeric
 ```
 
 2) Create a nested list in the code chunk below. This list should contain one vector of integers, one vector of float numbers, and one vector of strings or characters.
 ```{r}
-
+my_list <- list(c(1,2,3), c(1.11,2.22,3.33),c("a","b","c"))
+str(my_list)
 ```
 
 3) I have provided you with a vector of float numbers. Please convert these float numbers to integers and save the output vector to a vector called "my_integers".
 ```{r}
 my_floats <- c(1.67, 1.11, 2.25, 8.88, 6.67, 1048.2)
+
+my_integers <- as.integer(my_floats)
+my_integers
 ```
 
 4) The vector of words was taken from a 2020 Science article about rheumatoid arthritis (RA) associated joint damage. If you are interested in accessing the whole article it can be found [here](https://www.science.org/doi/10.1126/sciadv.abd2688). Using this vector of words and your recently acquired programming skills, select the word "rheumatoid" and print it out.
 
 ```{r}
 arthritis <- c("Formation", "of", "autoantibodies", "to", "carbamylated", "proteins", "(anti-CarP)", "is", "considered", "detrimental", "in", "the", "prognosis", "of", "erosive", "rheumatoid", "arthritis", "(RA).", "The", "source", "of", "carbamylated", "antigens", "and", "the", "mechanisms", "by", "which", "anti-CarP", "antibodies", "promote", "bone", "erosion", "in", "RA", "remain", "unknown.", NA, "Here,", "we", "find", "that", "neutrophil", "extracellular", "traps", "(NETs)", "externalize", "carbamylated", "proteins", "and", "that", "RA", "subjects", "develop", "autoantibodies", "against", "carbamylated", "NET", "(cNET)", "antigens", "that,", "in", "turn,", "correlate", "with", "levels", "of", "anti-CarP.", "Transgenic", "mice", "expressing", "the", "human", "RA", "shared", "epitope", "(HLADRB1*", "04:01)", "immunized", "with", "cNETs", "develop", "antibodies", "to", "citrullinated", "and", NA, "carbamylated", "proteins.", "Furthermore,", "anti–carbamylated", "histone", "antibodies", "correlate", "with", "radiographic", "bone", "erosion", "in", "RA", "subjects.", "Moreover,", "anti–carbamylated", "histone–immunoglobulin", "G", "immune", "complexes", "promote", "osteoclast", "differentiation", "and", "potentiate", "osteoclast-mediated", NA, "matrix", "resorption.", "These", "results", "demonstrate", "that", "carbamylated", "proteins", "present", "in", "NETs", "enhance", "pathogenic", "immune", "responses", "and", "bone", "destruction,", "which", "may", "explain", "the", "association", "between", "anti-CarP", "and", "erosive", NA, "arthritis", "in", "RA.")
+
+x <- which(arthritis == "rheumatoid")
+arthritis[x]
 ```
 
 5) From the vector in the last question, count how many NA's are present. Use coding!
 ```{r}
-
+length(which(is.na(arthritis) == TRUE))
 ```
 
 6) Count how many numbers in the below vector are less than 10. Use coding!
 ```{r}
 number_vector <- c(30, 29, 48, 10, 0, 8, 56, 77, 211, 674, 1)
+length(which(number_vector < 10))
 ```
 
 7) Count how many times "a" is present in the below vector. Use coding!
 ```{r}
 letter_vector <- c("v","a","b","g","f","a","n","m","q","a","c","w","w","i","e","y")
+
+length(which(letter_vector == "a"))
 ```
 
 8) Count how many number in the below vector are equal to 5 or greater than 5555.
 ```{r}
 number_vector <- c(5,5,55,555555,555,55555,5,5,555555555,55,55,555,5,5,55555555,5,55,5,5555,5,555,5555)
+
+result <- length(which(number_vector == 5 | number_vector > 5555))
+result
 ```
 
 9) Make a vector containing any 5 items that you want. These can be of type integer, numeric, or character. Subset your vector to contain only 3 items.
 ```{r}
+candy <- c("Cadbury Milk Chocolate Bar","Snickers","Gummy Bears","Sweet Tarts","Jolly Ranchers")
 
+candy_sub <- candy[1:3]
+candy_sub
 ```
 
 10) Report the factors of the levels in the below vector.
 ```{r}
 smoking_status <- c("Never Smoker", "Current Smoker","Former Smoker","Former Smoker","Never Smoker","Never Smoker","Never Smoker","Current Smoker","Former Smoker","Former Smoker")
+
+levels(factor(smoking_status))
 ```
 
 11) Below I have supplied you with a list of vectors containing the names of foods. Add logical names to each of the vectors in the list (eg. "Meats","Veggies", "Grains","Fruit"). Access the second vector in the lists. Return the type of items in this vector.
@@ -67,34 +87,48 @@ smoking_status <- c("Never Smoker", "Current Smoker","Former Smoker","Former Smo
 grocery_list <- list(c("Peaches","Bananas","Strawberries","Melon"),
           c("Spinach","Lettuce","Carrot","Kale"),
           c("Oreos","Chocolate Cake","Gummy Bears","Marshmellows"))
+names(grocery_list) <- c("Fruits","Veggies","Dessert")
+grocery_list[[2]]
+str(grocery_list)
 ```
-
 12) Create a count matrix with five rows and five columns. The count matrix should consist of randomly generated, whole numbers between 0 and 20. 
 ```{r setup, include=TRUE}
+num.vector <- c(0:20)
 
+count.vector <- sample(num.vector, size = 50, replace = TRUE)
+count.vector
+
+count.matrix <- matrix(count.vector, ncol=5, nrow=5, byrow = TRUE)
+count.matrix
 ```
 
 13) Add the following row names to the rows in your count matrix: "PTEN","BRCA1", "TP53", "EGFR","IL6". Add the following column names to the columns in your count matrix: "Participant 106","Participant 107","Participant 108","Participant 109","Participant 110".
 ```{r}
-
+rownames(count.matrix) <- c("PTEN","BRCA1", "TP53", "EGFR","IL6")
+colnames(count.matrix) <- c("Participant 106","Participant 107","Participant 108","Participant 109","Participant 110")
+count.matrix
 ```
 
 14) Print the column 3 row 5.
 ```{r}
-
+count.matrix[5,3]
 ```
 
 15) We can add a column to our matrix with a function called cbind. cbind is used, for example, as follows: MatrixB <- cbind(MatrixA, c(10,11,12)), where c(10,11,12) is the column you wish to add. Add the below vector as a column to your count matrix.
 ```{r}
 `Participant 111` <- c(1,2,3,4,5)
+count.matrix <- cbind(count.matrix, `Participant 111`)
+count.matrix
 ```
 
 16) Now try to add this column to to your count matrix. What happenens and why?
 ```{r}
 #Everything becomes a character! 
 `Participant 112` <- c("a","b","c","d","e")
+count.matrix <- cbind(count.matrix, `Participant 112`)
+count.matrix
 ```
-17) Ok, let's stick with numeric. Generate a new count matrix with the code below.
+17) Ok, let's stick with numerics. Generate a new count matrix with the code below.
 ```{r}
 num.vector <- c(0:20)
 
@@ -109,20 +143,35 @@ count.matrix
 
 18) Convert your count matrix to a data frame.
 ```{r}
-
+count.df <- as.data.frame(count.matrix)
+count.df
 ```
 
 19) Create a data frame with three columns: Participant ID, Age, and Disease Status (Case or Control). The data frame should contain 3 participants.
 ```{r}
-
+df <- data.frame(subject_id = c("Subject_1","Subject_2","Subject_3"),
+                 age = c(45, 83, 38),
+                 disease_status = c("Case","Control","Control"))
 ```
 
 20) Get the Age column.
 ```{r}
-
+df[, c("age")]
 ```
 
 21) Create a function called "my_first_function" that loops through the disease column in the data frame you created. If the disease status is "Case", have your function print the subject_id for that individual. If the disease status is a "Control", have your function print the age for that individual.
 ```{r}
+i <- 1
+my_first_function <- function(df){
+  for (sub in df$disease_status){
+    if (sub == "Case"){
+      print(df$subject_id[i])
+    }else{
+      print(df$age[i])
+    }
+    i <- i + 1
+  }
+}
 
+my_first_function(df)
 ```
