@@ -261,7 +261,7 @@ ggplot(random_data, aes(x = Sex, y = Heart_Rate, fill = Disease_Status)) +
   labs(x = "Sex", y = "Heart Rate", fill = "Disease Status", 
        title = "Heart Rate Distribution \nby Sex and Disease Status") +
   theme_minimal() +
-  scale_fill_brewer(palette = "Set1")  # Adjust colors if needed
+  scale_fill_brewer(palette = "Set1")
 
 ```
 Wow! This is looking really cool! We can also add a jitter over these box plots. A jitter simply displays each of our data points. Here is some code to achieve this:
