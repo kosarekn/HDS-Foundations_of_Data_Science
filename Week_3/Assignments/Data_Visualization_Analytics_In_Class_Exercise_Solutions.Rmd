@@ -1,0 +1,188 @@
+---
+title: "Data_Visualization_Analytics_In_Class_Exercise_Solutions"
+output: pdf_document
+date: "2025-06-27"
+---
+
+1) Create a data frame of random data containing the following columns:
+
+- Sex: Sex should have two levels "Male" and "Female".
+- Age: Age should be normally distributed with a minimum of 18 and maximum of 85 with a mean of 50 and a standard deviaiton of 10. 
+- Platelet_Count: Platelet count should be bound between 1.35 and 3.71 (this is in billion/L). Make sure you round the resulting values to two decimal places! Check out the function `runif()` to help you generate these values. 
+
+Once you have created this data frame, generate a box plot of platelet count values by sex. Make sure you label the x and y axes appropriately and add a title to the plot. 
+
+```{r}
+n = 200
+Sex <- sample(c("Male","Female"),n, rep = TRUE)
+Age <- pmax(18, pmin(90, round(rnorm(n, mean = 50, sd = 10))))
+Platelet_Count <- round(runif(n, 1.35, 3.71),2)
+dat_df <- data.frame(Sex, Age, Platelet_Count)
+
+ggplot(dat_df, aes(x = Sex, y = Platelet_Count, fill = Sex)) +
+  geom_boxplot(width = 0.25) +
+  labs(x = "Sex", y = "Platelet Count (Billion/L)", title = "Platelet Count by Sex") +scale_fill_manual(values = c("#01295F", "#849324"))
+```
+
+2) Use the code above as a foundation to generate 20 different data frames with the same specifications as above. Generate summary statistics for the "Age" variable in each of the data frames. It might help you out to use the `lapply()` function. This function allows you to apply a particular function to many data frames as once. 
+
+```{r}
+my_dfs <- list()
+n=200
+for (i in 1:20){
+  Sex <- sample(c("Male","Female"),n, rep = TRUE)
+  Age <- pmax(18, pmin(90, round(rnorm(n, mean = 50, sd = 10))))
+  Platelet_Count <- round(runif(n, 1.35, 3.71),2)
+  
+  dat_df <- data.frame(Sex, Age, Platelet_Count)
+  
+  my_dfs[[i]] <- dat_df
+}
+
+age_summaries <- lapply(my_dfs, function(df) summary(df$Age))
+age_summaries
+```
+
+3) Using the code you generated above, generate a function that takes a continuous covariate as input and applies it to the function you used above to summarize the spread of the age variable. Apply the Platelet_Count variable to this function. 
+```{r}
+my_fun <- function(con_var){
+  my_dfs <- list()
+  n=200
+  for (i in 1:20){
+    Sex <- sample(c("Male","Female"),n, rep = TRUE)
+    Age <- pmax(18, pmin(90, round(rnorm(n, mean = 50, sd = 10))))
+    Platelet_Count <- round(runif(n, 1.35, 3.71),2)
+  
+    dat_df <- data.frame(Sex, Age, Platelet_Count)
+  
+    my_dfs[[i]] <- dat_df
+  }
+
+  age_summaries <- lapply(my_dfs, function(df) summary(df[con_var]))
+}
+
+my_fun("Age")
+my_fun("Platelet_Count")
+```
+
+4) Using the function from the previous example, add a section to the function that generates a histogram of a continuous covariate of choice, Age or Platelet_Count. Save these plots to separate files.
+
+```{r}
+my_fun <- function(con_var){
+  my_dfs <- list()
+  n=200
+  for (i in 1:20){
+    Sex <- sample(c("Male","Female"),n, rep = TRUE)
+    Age <- pmax(18, pmin(90, round(rnorm(n, mean = 50, sd = 10))))
+    Platelet_Count <- round(runif(n, 1.35, 3.71),2)
+  
+    dat_df <- data.frame(Sex, Age, Platelet_Count)
+  
+    my_dfs[[i]] <- dat_df
+    
+    p <- ggplot(dat_df, aes_string(con_var)) + geom_histogram(bins = 50,fill = "skyblue")
+    
+    png(paste0("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/figures/p-",i,".png"), width = 1500, height = 1000, res = 300)
+    print(p)
+    dev.off()
+    i = i + 1
+  }
+
+  age_summaries <- lapply(my_dfs, function(df) summary(df[con_var]))
+}
+
+my_fun("Age")
+my_fun("Platelet_Count")
+```
+
+5) 
+Suppose your working directory contains a folder called Data/ with several CSV files. Each file has the same seven columns:
+- participant – an ID
+- age, crp – continuous covariates
+- sex, race, SES, disease_status – categorical covariates
+
+Write an R script that does the following:
+
+a) Use list.files() with pattern="\\.csv$" to find all CSV files in Data/, read them into a named list of data frames, and then row‐bind them into one big data frame.
+b) Convert age and crp to numeric, convert the other four variables to factors, and drop any rows with missing values.
+c) Write a function plot_continuous(data, var, fill_col) that returns a 3‐panel ggplot object (histogram, violin plot, and ECDF) for the continuous variable named by var.
+d) Use that function to plot age (in blue) and crp (in red).
+e) For each categorical variable (sex, race, SES, disease_status), produce and display a bar chart of counts.
+f) Fit a simple linear model crp ~ age, print its summary, and make a scatter plot of crp versus age with the regression line overlaid.
+
+```{r}
+## Load packages
+library(ggplot2)
+library(ggpubr)
+library(dplyr)
+
+## Read all CSVs & combine
+files <- list.files("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Data/", pattern="\\.csv$", full.names=TRUE)
+dfs   <- lapply(files, read.csv)
+names(dfs) <- basename(files)
+all_df <- bind_rows(dfs)
+
+## Type conversion & drop NAs
+all_df <- all_df %>%
+  mutate(
+    age            = as.numeric(age),
+    crp            = as.numeric(crp),
+    sex            = factor(sex),
+    race           = factor(race),
+    SES            = factor(SES),
+    disease_status = factor(disease_status)
+  ) %>%
+  na.omit()
+
+## Define plotting function
+plot_continuous <- function(data, var, fill_col="blue") {
+  # var is a string name of a column
+  p_hist <- ggplot(data, aes_string(x = var)) +
+    geom_histogram(bins = 30, fill = fill_col, alpha = 0.7) +
+    labs(title = paste("Histogram of", var), x = var, y = "Count")
+  p_violin <- ggplot(data, aes_string(x = "''", y = var)) +
+    geom_violin(fill = fill_col, alpha = 0.7) +
+    labs(title = paste("Violin of", var), x = "", y = var)
+  p_ecdf <- ggplot(data, aes_string(x = var)) +
+    stat_ecdf(geom = "step", color = fill_col) +
+    labs(title = paste("ECDF of", var), x = var, y = "F(x)")
+  
+  ggarrange(p_hist, p_violin, p_ecdf, ncol = 1, nrow = 3)
+}
+
+## Plot age and CRP
+age_plot <- plot_continuous(all_df, "age", "steelblue")
+crp_plot <- plot_continuous(all_df, "crp", "indianred")
+
+print(age_plot)
+print(crp_plot)
+
+## Bar charts for categorical vars
+cats <- c("sex", "race", "SES", "disease_status")
+for (v in cats) {
+  p <- ggplot(all_df, aes_string(x = v)) +
+    geom_bar(fill = "darkgreen", alpha = 0.7) +
+    labs(title = paste("Counts by", v), x = v, y = "Count") +
+    theme_minimal()
+  print(p)
+}
+
+## Linear model & scatter + line
+model <- lm(crp ~ age, data = all_df)
+print(summary(model))
+
+p_scatter <- ggplot(all_df, aes(x = age, y = crp)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm", color = "darkred") +
+  labs(
+    title = "CRP vs Age with Regression Line",
+    x = "Age (years)",
+    y = "CRP"
+  ) +
+  theme_minimal()
+
+print(p_scatter)
+```
+
+
+

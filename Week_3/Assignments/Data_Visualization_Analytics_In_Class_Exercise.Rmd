@@ -1,0 +1,53 @@
+---
+title: "Data_Visualization_Analytics_In_Class_Exercise"
+output: pdf_document
+date: "2025-06-27"
+---
+
+1) Create a data frame of random data containing the following columns:
+
+- Sex: Sex should have two levels "Male" and "Female".
+- Age: Age should be normally distributed with a minimum of 18 and maximum of 85 with a mean of 50 and a standard deviaiton of 10. 
+- Platelet_Count: Platelet count should be bound between 1.35 and 3.71 (this is in billion/L). Make sure you round the resulting values to two decimal places! Check out the function `runif()` to help you generate these values. 
+
+Once you have created this data frame, generate a box plot of platelet count values by sex. Make sure you label the x and y axes appropriately and add a title to the plot. 
+
+```{r}
+
+```
+
+2) Use the code above as a foundation to generate 20 different data frames with the same specifications as above. Generate summary statistics for the "Age" variable in each of the data frames. It might help you out to use the `lapply()` function. This function allows you to apply a particular function to many data frames as once. 
+
+```{r}
+
+```
+
+3) Using the code you generated above, generate a function that takes a continuous covariate as input and applies it to the function you used above to summarize the spread of the age variable. Apply the Platelet_Count variable to this function. 
+```{r}
+
+```
+
+4) Using the function from the previous example, add a section to the function that generates a histogram of a continuous covariate of choice, Age or Platelet_Count. Save these plots to separate files.
+
+```{r}
+
+```
+
+5) 
+Suppose your working directory contains a folder called Data/ with several CSV files. Each file has the same seven columns:
+- participant – an ID
+- age, crp – continuous covariates
+- sex, race, SES, disease_status – categorical covariates
+
+Write an R script that does the following:
+
+a) Use list.files() with pattern="\\.csv$" to find all CSV files in Data/, read them into a named list of data frames, and then row‐bind them into one big data frame.
+b) Convert age and crp to numeric, convert the other four variables to factors, and drop any rows with missing values.
+c) Write a function plot_continuous(data, var, fill_col) that returns a 3‐panel ggplot object (histogram, violin plot, and ECDF) for the continuous variable named by var.
+d) Use that function to plot age (in blue) and crp (in red).
+e) For each categorical variable (sex, race, SES, disease_status), produce and display a bar chart of counts.
+f) Fit a simple linear model crp ~ age, print its summary, and make a scatter plot of crp versus age with the regression line overlaid.
+
+```{r}
+
+```
