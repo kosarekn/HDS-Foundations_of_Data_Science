@@ -1,0 +1,62 @@
+---
+title: "Assignment_3_Data_Visualization_Analytics"
+output: pdf_document
+date: "2025-06-27"
+---
+
+1) Load in the following files from the Data directory for Week 3:
+- ALB_CR_2017-2018.xpt
+- KIQ_U_2017-2018.xpt
+- DEMO_2017-2018.xpt
+
+a)After reading in the data, take a look at the head of each of these files. There is tons of information in there, but we will only be working with parts of each of these data frames. It's your job to pull data from these data frames to create a single data frame containing these columns from each of these files:
+- ALB_CR_2017-2018.xpt: SEQN, URXUMA, URXUCR
+- KIQ_U_2017-2018.xpt: KIQ022
+- DEMO_2017-2018.xpt: RIDAGEYR, RIAGENDR
+
+b) After creating the data frame, rename the columns using this key:
+- SEQN : Subject_ID
+- URXUMA: Albumin
+- URXUCR: Creatinine
+- RIDAGEYR: Age
+- RIAGENDR: Sex
+- KIQ022: Weak_Kidney (Have you ever been told you have weak or failing kidneys)
+
+c) You will notice that the "Sex" variable is coded with "1" for "Male" and "2" for "Female". You will also notice that "Weak_Kidney" variable is coded with "1" for "Yes", "2" for "No", "7" for "Refused", and "9" for "Don't Know". Recode these levels from the numbers to the correct categorical variables described above. Hint: Try out the `tidyverse` package and take a look at the function called `recode()`.
+```{r}
+
+```
+
+2) Create a panel including the following three plots. Make sure that the labeling is publication ready!
+
+a) The first plot should display a violin plot of creatinine (mg/dL) levels by sex. Make sure to color the violin plots by sex. This should be a ggplot2 plot. 
+b) The second plot in the panel should display a scatter plot of creatinine (mg/dL) levels on the x-axis and albumin (ug/ml) levels on the y-axis. The scatter plot should have a linear regression line.
+c) The final plot in the panel should be a density plot (`geom_density()`) of creatinine (mg/dL) levels by sex. Please color the density curves by sex.
+```{r}
+
+```
+3) Create a function that takes the data frame above we have been working with, continuous variable, categorical variable, name of continuous variable as you would like it to appear in labels and titles, and name of categorical variable as you would like it to appear in labels and titles. The function should create a box plot of the continuous variable by the categorical variable. The plot should also display the p-value comparing the results of a Wilcoxon Rank Sum Test between the categorical variable levels. Calculate the mean and standard deviation of the continuous variable. Using the `geom_text()` function add the mean and standard deviation to the plot below the p-value. Make sure to provide a title, appropriate labels, and colors! 
+```{r}
+
+```
+
+4) Using a for loop create 5 random data frames containing the following columns:
+
+- Participant ID: There should be 100 participants in each data frame with unique identifiers.
+- Sex: Sex should be comprised of two levels - Male and Female
+- Age: This data frame should contain only adults between 18 and 85.
+- Red Blood Cell Count: Female: 3.92 - 5.13 cells/L (trillion), Male: 4.35-5.65 cells/L (trillion)
+- White Blood Cell Count: 3.4-9.6 cell/L (billion)
+
+Put these data frames into a list. 
+```{r}
+
+```
+
+
+5) For each of the data frames you generated in the previous question, create a scatter plot with the red blood cell count on the x-axis and the white blood cell count on the y-axis. Color the points by Sex. Once you have created these plots, arrange the plots in a panel using `ggarrange()`. Hint: Make a list of the plots that you can apply to the function `do.call()` along with `ggarrange()`! 
+
+```{r}
+
+```
+

@@ -56,9 +56,11 @@ dat_df <- dat_df %>% mutate(Weak_Kidney = recode(Weak_Kidney, `1` = "Yes", `2` =
 head(dat_df)
 ```
 
-2) Create a panel of three plots:
+2) Create a panel including the following three plots. Make sure that the labeling is publication ready!
 
-a) 
+a) The first plot should display a violin plot of creatinine (mg/dL) levels by sex. Make sure to color the violin plots by sex. This should be a ggplot2 plot. 
+b) The second plot in the panel should display a scatter plot of creatinine (mg/dL) levels on the x-axis and albumin (ug/ml) levels on the y-axis. The scatter plot should have a linear regression line.
+c) The final plot in the panel should be a density plot (`geom_density()`) of creatinine (mg/dL) levels by sex. Please color the density curves by sex.
 ```{r}
 library(ggplot2)
 ## Generate a grid of plots
@@ -89,5 +91,95 @@ p3 <- ggplot(dat_df, aes(Creatinine)) + geom_density(aes(fill=factor(Sex)), alph
 
 plots <- ggarrange(p1, p2, p3, ncol = 2, nrow = 2)
 print(plots)
+```
+3) Create a function that takes the data frame above we have been working with, continuous variable, categorical variable, name of continuous variable as you would like it to appear in labels and titles, and name of categorical variable as you would like it to appear in labels and titles. The function should create a box plot of the continuous variable by the categorical variable. The plot should also display the p-value comparing the results of a Wilcoxon Rank Sum Test between the categorical variable levels. Calculate the mean and standard deviation of the continuous variable. Using the `geom_text()` function add the mean and standard deviation to the plot below the p-value. Make sure to provide a title, appropriate labels, and colors! 
+```{r}
+my_fun <- function(df, cat_var, con_var, cat_name, con_name) {
+  # Compute mean and sd of con_var (overall)
+  mean_con <- mean(df[[con_var]], na.rm = TRUE)
+  sd_con <- sd(df[[con_var]], na.rm = TRUE)
+  
+  library(ggplot2)
+  library(ggpubr)
+  
+  bx_plt <- ggplot(df, aes_string(x = cat_var, y = con_var, fill = cat_var)) +
+    geom_boxplot(width = 0.5) +
+    labs(title = paste0("Box Plot of ", con_name, " by ", cat_name),
+         x = cat_name,
+         fill = cat_name,
+         y = con_name) +
+    scale_fill_manual(values = c("#F4B147", "#CF3E4A")) +
+    stat_compare_means(method = "wilcox", label.x = 1.3, label.y = max(df[[con_var]], na.rm = TRUE) * 0.95, size = 3) + 
+    geom_text(aes(x = 1.5, y = max(df[[con_var]], na.rm=TRUE)*0.9, 
+                  label = paste0("Mean: ", round(mean_con, 2))),
+              inherit.aes = FALSE, size = 3) +
+    geom_text(aes(x = 1.5, y = max(df[[con_var]], na.rm=TRUE)*0.85, 
+                  label = paste0("SD: ", round(sd_con, 2))),
+              inherit.aes = FALSE, size = 3)
+  
+  print(bx_plt)
+}
+
+my_fun(df = dat_df, cat_var = "Sex", con_var = "Creatinine", cat_name = "Sex", con_name = "Creatinine (mg/dL)")
+```
+
+4) Using a for loop create 5 random data frames containing the following columns:
+
+- Participant ID: There should be 100 participants in each data frame with unique identifiers.
+- Sex: Sex should be comprised of two levels - Male and Female
+- Age: This data frame should contain only adults between 18 and 85.
+- Red Blood Cell Count: Female: 3.92 - 5.13 cells/L (trillion), Male: 4.35-5.65 cells/L (trillion)
+- White Blood Cell Count: 3.4-9.6 cell/L (billion)
+
+Put these data frames into a list. 
+```{r}
+my_dfs <- list()
+n=100
+for (i in 1:5){
+  n = 100
+  Sex <- sample(c("Male", "Female"), n, replace = TRUE)
+  
+  Red_Blood_Cell <- numeric(n)
+  
+  # For females
+  female_idx <- which(Sex == "Female")
+  Red_Blood_Cell[female_idx] <- round(runif(length(female_idx), min = 3.92, max = 5.13), 2)
+  
+  # For males
+  male_idx <- which(Sex == "Male")
+  Red_Blood_Cell[male_idx] <- round(runif(length(male_idx), min = 4.35, max = 5.65), 2)
+  
+  df <- data.frame(Participant_ID = paste("P", 1:n, sep = "_"),
+                   Age = pmax(18, pmin(85, round(rnorm(n, mean = 50, sd = 10)))),
+                   Sex = Sex,
+                   White_Blood_Cells = round(runif(n, min = 3.4, max = 9.6), 2),
+                   Red_Blood_Cell = Red_Blood_Cell)
+  
+  my_dfs[[i]] <- df
+}
+
+dim(my_dfs[[1]])
+```
+
+
+5) For each of the data frames you generated in the previous question, create a scatter plot with the red blood cell count on the x-axis and the white blood cell count on the y-axis. Color the points by Sex. Once you have created these plots, arrange the plots in a panel using `ggarrange()`. Hint: Make a list of the plots that you can apply to the function `do.call()` along with `ggarrange()`! 
+
+```{r}
+library(ggplot2)
+library(ggpubr)
+
+plot_list <- list()
+i <- 1
+for (df in my_dfs) {
+  my_plot <- ggplot(df, aes(x = Red_Blood_Cell, y = White_Blood_Cells, fill = Sex)) +
+    geom_point(size = 2, shape = 23) +
+    labs(title = "White and \nRed Blood Cell Levels",
+         x = "Red Blood Cells",
+         y = "White Blood Cells")
+  plot_list[[i]] <- my_plot
+  i <- i + 1
+}
+
+do.call(ggarrange, c(plot_list, ncol = 2, nrow = 3))
 ```
 
