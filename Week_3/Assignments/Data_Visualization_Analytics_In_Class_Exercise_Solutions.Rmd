@@ -96,19 +96,21 @@ my_fun("Platelet_Count")
 ```
 
 5) 
-Suppose your working directory contains a folder called Data/ with several CSV files. Each file has the same seven columns:
-- participant – an ID
-- age, crp – continuous covariates
-- sex, race, SES, disease_status – categorical covariates
+Suppose your working directory contains a folder called Data/In-Class-Exercises/ with several CSV files. Each file has the same columns:
+- Participant_ID: Unique patient identifier
+- Sex: 2 levels - Male and Female
+- Age: Normally distributed and bound between 18 and 85
+- Socioeconomic_Status: 3 levels - Low, Medium, and High
+- Disease_Status: 2 levels - Case and Control
+- CReactive_Protein: Continuous variable  
 
 Write an R script that does the following:
 
 a) Use list.files() with pattern="\\.csv$" to find all CSV files in Data/, read them into a named list of data frames, and then row‐bind them into one big data frame.
-b) Convert age and crp to numeric, convert the other four variables to factors, and drop any rows with missing values.
-c) Write a function plot_continuous(data, var, fill_col) that returns a 3‐panel ggplot object (histogram, violin plot, and ECDF) for the continuous variable named by var.
-d) Use that function to plot age (in blue) and crp (in red).
-e) For each categorical variable (sex, race, SES, disease_status), produce and display a bar chart of counts.
-f) Fit a simple linear model crp ~ age, print its summary, and make a scatter plot of crp versus age with the regression line overlaid.
+
+b) Create a box plot with Disease_Status on the x-axis and C-Reactive Protein levels on the y-axis. Add a jitter to the box plots for the individual points. Make sure to color the box plots! Add appropriate titles and labels. 
+
+c) Create a scatter plot of Age and CReactive_Protein. Make the "Male" points triangle and the Female points circles. Color the Cases red and the Controls blue. Make sure to add appropriate labels and titles to your graph!
 
 ```{r}
 ## Load packages
@@ -116,72 +118,54 @@ library(ggplot2)
 library(ggpubr)
 library(dplyr)
 
+#a)
 ## Read all CSVs & combine
-files <- list.files("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Data/", pattern="\\.csv$", full.names=TRUE)
+files <- list.files("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Data/In-Class-Exercises/", pattern="\\.csv$", full.names=TRUE)
 dfs   <- lapply(files, read.csv)
 names(dfs) <- basename(files)
 all_df <- bind_rows(dfs)
 
-## Type conversion & drop NAs
-all_df <- all_df %>%
-  mutate(
-    age            = as.numeric(age),
-    crp            = as.numeric(crp),
-    sex            = factor(sex),
-    race           = factor(race),
-    SES            = factor(SES),
-    disease_status = factor(disease_status)
-  ) %>%
-  na.omit()
+dim(all_df)
 
-## Define plotting function
-plot_continuous <- function(data, var, fill_col="blue") {
-  # var is a string name of a column
-  p_hist <- ggplot(data, aes_string(x = var)) +
-    geom_histogram(bins = 30, fill = fill_col, alpha = 0.7) +
-    labs(title = paste("Histogram of", var), x = var, y = "Count")
-  p_violin <- ggplot(data, aes_string(x = "''", y = var)) +
-    geom_violin(fill = fill_col, alpha = 0.7) +
-    labs(title = paste("Violin of", var), x = "", y = var)
-  p_ecdf <- ggplot(data, aes_string(x = var)) +
-    stat_ecdf(geom = "step", color = fill_col) +
-    labs(title = paste("ECDF of", var), x = var, y = "F(x)")
-  
-  ggarrange(p_hist, p_violin, p_ecdf, ncol = 1, nrow = 3)
-}
-
-## Plot age and CRP
-age_plot <- plot_continuous(all_df, "age", "steelblue")
-crp_plot <- plot_continuous(all_df, "crp", "indianred")
-
-print(age_plot)
-print(crp_plot)
-
-## Bar charts for categorical vars
-cats <- c("sex", "race", "SES", "disease_status")
-for (v in cats) {
-  p <- ggplot(all_df, aes_string(x = v)) +
-    geom_bar(fill = "darkgreen", alpha = 0.7) +
-    labs(title = paste("Counts by", v), x = v, y = "Count") +
-    theme_minimal()
-  print(p)
-}
-
-## Linear model & scatter + line
-model <- lm(crp ~ age, data = all_df)
-print(summary(model))
-
-p_scatter <- ggplot(all_df, aes(x = age, y = crp)) +
-  geom_point(alpha = 0.5) +
-  geom_smooth(method = "lm", color = "darkred") +
-  labs(
-    title = "CRP vs Age with Regression Line",
-    x = "Age (years)",
-    y = "CRP"
+#b)
+ggplot(all_df, aes(x = Disease_Status, y = CReactive_Protein, fill = Disease_Status)) +
+  # Box plot with slight transparency
+  geom_boxplot(alpha = 0.7) +
+  # Add jittered points
+  geom_jitter(
+    width = 0.2,  # Horizontal spread
+    alpha = 0.5,  # Transparency of points
+    color = "dark gray",  # Color of jittered points
+    size = 2  # Size of points
   ) +
-  theme_minimal()
+  labs(
+    title = "C-Reactive Protein Levels by Disease Status",
+    subtitle = "Box plot with individual data points",
+    x = "Disease Status", 
+    y = "C-Reactive Protein (mg/dL)"
+  ) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2") +
+  # Optional: Add some statistical annotations
+  stat_summary(
+    fun = mean, 
+    geom = "point", 
+    shape = 23, 
+    size = 4, 
+    fill = "red"
+  )
 
-print(p_scatter)
+#c) 
+
+ggplot(all_df, aes(x = Age, y = CReactive_Protein, 
+                     color = Disease_Status, 
+                     shape = Sex)) +
+  geom_point(alpha = 0.7) +
+  labs(title = "Age vs C-Reactive Protein by Disease Status and Sex",
+       x = "Age", 
+       y = "C-Reactive Protein (mg/dL)") +
+  theme_minimal() +
+  scale_color_brewer(palette = "Set1")
 ```
 
 
