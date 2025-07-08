@@ -1,0 +1,41 @@
+Assignment 4: Bash Programming
+
+In the "Data" directory for this week's class you will find a file called "pseudo_rnaseq_counts.csv". This file contains 500 rows and 10 columns of pseudo-RNAseq data that was generated for the purposes of this course. Log on to Dartmouth's HPC system (Discovery). Remember, to do this you will have to open your terminal and type the following command: ssh your_netid@discovery8.dartmouth.edu. You should see a prompt for your password. Enter the password associated with your Dartmouth email and press "Enter". You should now be logged onto Discovery! 
+
+In addition to logging on to Discovery, you might find it useful to open Cyberduck. Double Click on Cyberduck. Click "Open Connection" near the top. From the dropdown menu at the top, select SFTP. In the box for "Server" input "discovery8.dartmouth.edu". In "Username" input your Dartmouth NetID. Finally, in the "Password" box, type the password to your Dartmouth email and then click "Connect" . You should now be in your home directory in Cyberduck! 
+
+Once all that is all set up begin the following exercises:
+
+1) Upload the "pseudo_renseq_counts.csv" to your home directory on Discovery.
+2) Create a new file called "your_initials_slurm.bash". In this file include the following:
+	* Shebang
+	* Job Name
+	* Job Output File
+	* Time
+	* Partition
+	* Memory
+	* Ntasks
+
+Below this job submission, you can write bash script you would like your job to run in the same file. 
+
+3) The "pseudo_renseq_counts.csv" file contains a lot of data. I just want the first 2 columns and 100 rows of data. Add code to your .bash file to select the first 2 columns and first 100 rows and write them out to a separate file called "pseudo_renseq_counts_sub.csv". 
+
+4) Make a new directory called "outputs" using the `mkdir` command. 
+
+5) Move your "pseudo_renseq_counts_sub.csv" file to the "outputs" directory using the the `mv` command.
+
+6) Change directories to the "outputs" directory and print out the last 10 rows of your "pseudo_renseq_counts_sub.csv".
+
+7) Create another file called "my_R_script.R". In that file write some code that will read in your "pseudo_renseq_counts_sub.csv" file. Calculate the total sum of the expression values for the second sample column in your data. Print out the sum.
+
+After you have completed all of these exercises, download you .bash, .R, and pseudo_renseq_counts_sub.csv files. Submit these files with your assignment. Make sure to comment your bash and R codes!
+
+
+
+
+
+
+
+
+
+

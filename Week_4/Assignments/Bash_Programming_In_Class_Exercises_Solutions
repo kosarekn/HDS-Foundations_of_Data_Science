@@ -1,0 +1,44 @@
+Bash Programming In Class Exercises
+
+In the Data directory for this week, I have provided you with a file called "pseudo_metadata.csv". This file creates some fake meta data for a small study of 10 participants. 
+
+1) Count how many lines are in this file.
+
+wc -l "/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/pseudo_metadata.csv"
+
+2) Subset this data frame to contain only the female participants and write out that meta data to a file called "only_female.txt".
+
+awk -F, 'NR==1 || $5=="\"F\""'  /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/pseudo_metadata.csv >  /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/females_metadata.csv
+
+3) Make a new directory called "new_dir". Copy the "females_metadata.csv" into your new directory. Make a new file called "notes.txt" in this directory. Write a few notes on the data in the "females_metadata.csv".
+
+mkdir -p /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/new_dir
+
+cd /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/new_dir
+
+cp /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/females_metadata.csv /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/new_dir/females_metadata.csv
+
+touch /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/new_dir/notes.txt
+
+echo "These are my notes." > notes.txt
+
+4) Isolate the third and fourth columns in the data frame and write that out to a new file called "females_metadata_sub.csv".
+
+cut -d',' -f3,4 /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/new_dir/females_metadata.csv >> /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data/new_dir/females_metadata_sub.csv
+
+5) List all of the file in your current directory. Navigate up one directory and then delete your "new_dir" with all of the files in it.
+
+ls
+cd ../
+rm -rf new_dir
+
+
+
+
+
+
+
+
+
+
+

@@ -134,7 +134,7 @@ We can also move up one directory with the following command:
 cd ..
 ```
 
-We can also use absolute paths in order to jump from one location using `cd` to another. You can simply insert the path to which you woul dlike to navigate like this: 
+We can also use absolute paths in order to jump from one location using `cd` to another. You can simply insert the path to which you would like to navigate like this: 
 
 ```bash
 cd /Users/noellekosarek/Desktop/project1/scripts
@@ -156,7 +156,7 @@ mkdir -p my_new_project/scripts/preprocessing
 
 5) cp
 
-The `cp` command is usedt o copy files from one directory to another. To test out this command, let's go into a text editor and make a text file containing a bit of our own data. I've added a .txt file to my Desktop called "test.txt". In this file I've just added a sentence. Now I can use the `cp` command to copy this file from my Desktop to my Documents I can implement the following command:
+The `cp` command is used to copy files from one directory to another. To test out this command, let's go into a text editor and make a text file containing a bit of our own data. I've added a .txt file to my Desktop called "test.txt". In this file I've just added a sentence. Now I can use the `cp` command to copy this file from my Desktop to my Documents I can implement the following command:
 
 ```bash
 cp /Users/noellekosarek/Desktop/test.txt /Users/noellekosarek/Documents/test2.txt
