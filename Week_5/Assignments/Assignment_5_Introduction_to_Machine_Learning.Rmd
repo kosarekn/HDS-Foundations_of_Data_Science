@@ -1,0 +1,36 @@
+---
+title: "Assignment_5_Introduction_to_Machine_Learning"
+output: pdf_document
+date: "2025-07-14"
+---
+
+1) The CARET package has a number of built in data sets including a cell body segmentation data set published by Hill, LaPan, Li, and Haney in 2007. This data set consists on 119 imaging measurements on 2019 cells. These measurements were generated using High Content Screening (HCS), a method used to capture images of cells and draw boundaries around cell bodies. These boundaries are then used to aid in identifying cell types. In particular, this data set reports measurements of cells from the SK-BR-3 cell line and indicates whether each of the cells imaged were poorly segmented (PS) or well segmented (WS). 
+
+a) Read in the segmentation data set and check for missing data.
+b) Split this data into a training and testing data set. The original study split the data using half of the data for training and the other half for testing so let's go ahead and follow their lead. Split the data in half, use one half for training and the other half for testing. 
+c) Train a random forest repeated 3-fold cross validation model that repeats 5 times. Make sure that "Class" is the target variable. Use all of the columns in your training data as predictors.
+
+```{r}
+
+```
+2) In the previous question I asked you to train a random forest model on all of the variables in your data set. We do not necessarily require feature selection with random forest models because random forest models inherently preform a type of feature selection. However,feature selection can help  us eliminate noisy or redundant features, thereby reducing computational burden. Run the same model again, but this time only include the top 10 variables as predictors.
+
+```{r}
+
+```
+3) Using the model you trained above, generate predictions on the testing set. After running your model, create a confusion matrix visualization in `ggplot2`. Report the accuracy of your predictions in the main title of your plot. Make sure you have included appropriate x- and y-axis titles! Write your confusion matrix out to a .png file and upload it with your assignment submission. Hint: Here is some starter code to learn how to generate a visualization like this: https://www.energycode.org/posts/09032022-confusion-matrix/.
+
+```{r}
+
+```
+4) Train a support vector machine model with 3-fold cross validation. Make sure that "Class" is the target variable. Use all of the columns in your training data as predictors. Make sure to indicate that your metric is ROC, as this is a binary classification. Since SVMs are sensitive to the scale of features include "center" and "scale" in your `preProcess` parameter when you train your model. 
+
+```{r}
+
+```
+5) Generate predictions for your support vector machine model. Like we did with the random forest model, make a confusion matrix visualization. Save the visualization to a .png file and submit it along with this assignment. Make sure to include an appropriate main title with the model accuracy as well as any x- and y- axis titles you think are important!
+
+```{r}
+
+```
+

@@ -1,0 +1,141 @@
+---
+title: "Assignment_5_Introduction_to_Machine_Learning_Solutions"
+output: pdf_document
+date: "2025-07-14"
+---
+
+1) The CARET package has a number of built in data sets including a cell body segmentation data set published by Hill, LaPan, Li, and Haney in 2007. This data set consists on 119 imaging measurements on 2019 cells. These measurements were generated using High Content Screening (HCS), a method used to capture images of cells and draw boundaries around cell bodies. These boundaries are then used to aid in identifying cell types. In particular, this data set reports measurements of cells from the SK-BR-3 cell line and indicates whether each of the cells imaged were poorly segmented (PS) or well segmented (WS). 
+
+a) Read in the segmentation data set and check for missing data.
+b) Split this data into a training and testing data set. The original study split the data using half of the data for training and the other half for testing so let's go ahead and follow their lead. Split the data in half, use one half for training and the other half for testing. 
+c) Train a random forest repeated 3-fold cross validation model that repeats 5 times. Make sure that "Class" is the target variable. Use all of the columns in your training data as predictors.
+```{r}
+# Read in library and data
+library(caret)
+data(segmentationData)
+
+# Check for any missing data
+length(which(is.na(segmentationData) == TRUE))
+
+# Take a look at what the data looks like
+head(segmentationData)
+
+# This code splits our data 
+trainIndex <- createDataPartition(segmentationData$Class, p = 1/2, list = FALSE, times = 1)
+
+# We assign the 1/2 of data to a training set variable
+Train <- segmentationData[ trainIndex,]
+
+# We assign the remaining 1/2 of data to a testing set variable
+Test <- segmentationData[-trainIndex,]
+
+# Let's take a look at the dimensions of our training and testing set to see if that all worked out ok
+dim(Train)
+dim(Test)
+
+# Fit the model
+fitControl <- trainControl(method = "repeatedcv", number = 3,repeats = 5)
+
+# Train the model
+Fit1 <- train(Class ~ ., data = Train, method = "rf", trControl = fitControl, verbose = FALSE)
+
+# Report the accuracy
+Fit1
+```
+2) In the previous question I asked you to train a random forest model on all of the variables in your data set. We do not necessarily require feature selection with random forest models because random forest models inherently preform a type of feature selection. However,feature selection can help  us eliminate noisy or redundant features, thereby reducing computational burden. Run the same model again, but this time only include the top 10 variables as predictors.
+```{r}
+# Read in necessary libraries
+library(dplyr)
+
+# Select the most important variables
+Imp <- varImp(Fit1, scale = FALSE)
+
+# Select the top 10 most important features
+featSel<-head(rownames(Imp$importance %>% arrange(desc(Overall))), n=10)
+
+# Need to put "+" between all variables
+features_string <- paste(featSel, collapse = " + ")
+formula_str <- paste("Class ~", features_string)
+
+# Convert string to formula
+feat_formula <- as.formula(formula_str)
+
+# Now fit the model with the correct formula
+Fit2 <- train(feat_formula, data = Train, method = "rf", trControl = fitControl, verbose = FALSE)
+
+Fit2
+```
+3) Using the model you trained above, generate predictions on the testing set. After running your model, create a confusion matrix visualization in `ggplot2`. Report the accuracy of your predictions in the main title of your plot. Make sure you have included appropriate x- and y-axis titles! Write your confusion matrix out to a .png file and upload it with your assignment submission. Hint: Here is some starter code to learn how to generate a visualization like this: https://www.energycode.org/posts/09032022-confusion-matrix/.
+```{r}
+# Generate predictions
+preds<-predict(Fit2,Test)
+
+# Generate confusion matrix
+cm <- confusionMatrix(preds, Test$Class, positive = "WS")
+
+# Extract table from cm object
+cm_table <- as.data.frame(cm$table)
+
+# Plot and save heatmap with ggplot2
+png("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_5/Lecture_Notes/images/confusion_matrix_RF.png", width = 1000, height = 1000, res = 200)
+print(ggplot(cm_table, aes(Prediction, Reference, fill = Freq)) +
+  geom_tile(color = "black") +
+  geom_text(aes(label = Freq), size = 6) +
+  scale_fill_gradient(low = "white", high = "steelblue") +
+  theme_minimal() +
+  labs(title = paste0("Confusion Matrix, Accuracy:",round(cm$overall[1],2)),
+       x = "Predicted Class",
+       y = "Actual Class") +
+  theme(axis.text = element_text(size = 12),
+        axis.title = element_text(size = 14)))
+dev.off()
+```
+4) Train a support vector machine model with 3-fold cross validation. Make sure that "Class" is the target variable. Use all of the columns in your training data as predictors. Make sure to indicate that your metric is ROC, as this is a binary classification. Since SVMs are sensitive to the scale of features include "center" and "scale" in your `preProcess` parameter when you train your model. 
+```{r}
+# Fit the model
+fitControl <- trainControl(
+  method = "cv",  
+  number = 3,
+  classProbs = TRUE,
+  summaryFunction = twoClassSummary 
+)
+
+#Train the SVM model
+svmFit <- train(
+  Class ~ .,
+  data = Train,
+  method = "svmRadial",
+  trControl = fitControl,
+  metric = "ROC",
+  preProcess = c("center", "scale")  
+)
+
+# Results
+print(svmFit)
+```
+5) Generate predictions for your support vector machine model. Like we did with the random forest model, make a confusion matrix visualization. Save the visualization to a .png file and submit it along with this assignment. Make sure to include an appropriate main title with the model accuracy as well as any x- and y- axis titles you think are important!
+```{r}
+# Generate predictions
+preds<-predict(svmFit,Test)
+
+# Generate confusion matrix
+cm <- confusionMatrix(preds, Test$Class, positive = "WS")
+cm
+# Extract table from cm object
+cm_table <- as.data.frame(cm$table)
+
+# Plot and save heatmap with ggplot2
+png("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_5/Lecture_Notes/images/confusion_matrix_SVM.png", width = 1000, height = 1000, res = 200)
+print(ggplot(cm_table, aes(Prediction, Reference, fill = Freq)) +
+  geom_tile(color = "black") +
+  geom_text(aes(label = Freq), size = 6) +
+  scale_fill_gradient(low = "white", high = "steelblue") +
+  theme_minimal() +
+  labs(title = paste0("Confusion Matrix, Accuracy:",round(cm$overall[1],2)),
+       x = "Predicted Class",
+       y = "Actual Class") +
+  theme(axis.text = element_text(size = 12),
+        axis.title = element_text(size = 14)))
+dev.off()
+```
+

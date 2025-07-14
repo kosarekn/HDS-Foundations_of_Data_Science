@@ -292,7 +292,7 @@ Fit8
 
 ## Predictive Modeling and Validation
 
-Now since, we used random forest, we won't need to add feature selection, so let's go ahead and use our model with repeated k-fold cross validation (model name: Fit3) on our testing data set. 
+Let's go ahead and use our random forest model with repeated k-fold cross validation (model name: Fit3) on our testing data set. 
 ```{r}
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #               PREDICTIVE MODELING AND VALIDATION
