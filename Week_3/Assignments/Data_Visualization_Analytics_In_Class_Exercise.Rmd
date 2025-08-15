@@ -34,10 +34,13 @@ Once you have created this data frame, generate a box plot of platelet count val
 ```
 
 5) 
-Suppose your working directory contains a folder called Data/ with several CSV files. Each file has the same seven columns:
-- participant – an ID
-- age, crp – continuous covariates
-- sex, race, SES, disease_status – categorical covariates
+Download the dummy_data.csv files. Each file has the same seven columns:
+- Participant_ID: Unique patient identifier
+- Sex: 2 levels - Male and Female
+- Age: Normally distributed and bound between 18 and 85
+- Socioeconomic_Status: 3 levels - Low, Medium, and High
+- Disease_Status: 2 levels - Case and Control
+- CReactive_Protein: Continuous variable  
 
 Write an R script that does the following:
 

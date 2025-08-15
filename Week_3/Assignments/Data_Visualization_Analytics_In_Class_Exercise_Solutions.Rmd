@@ -96,7 +96,7 @@ my_fun("Platelet_Count")
 ```
 
 5) 
-Suppose your working directory contains a folder called Data/In-Class-Exercises/ with several CSV files. Each file has the same columns:
+Download the dummy_data.csv files. Each file has the same seven columns:
 - Participant_ID: Unique patient identifier
 - Sex: 2 levels - Male and Female
 - Age: Normally distributed and bound between 18 and 85

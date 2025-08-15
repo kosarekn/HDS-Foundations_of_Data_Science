@@ -81,7 +81,7 @@ pwd
 What does this return? It should be something like:
 
 ```bash
-/Users/noellekosarek/Desktop/
+/Users/f002yt8/Desktop/
 ```
 
 The `pwd` command returns our current directory. This is the location that we are at in our computer. The equivalent of this would be us opening up our finder and selecting our Desktop. This means that our computer can see all of the files we have on our Desktop. 
@@ -137,7 +137,7 @@ cd ..
 We can also use absolute paths in order to jump from one location using `cd` to another. You can simply insert the path to which you would like to navigate like this: 
 
 ```bash
-cd /Users/noellekosarek/Desktop/project1/scripts
+cd /Users/f002yt8/Desktop/project1/scripts
 ```
 
 4) mkdir
@@ -159,7 +159,7 @@ mkdir -p my_new_project/scripts/preprocessing
 The `cp` command is used to copy files from one directory to another. To test out this command, let's go into a text editor and make a text file containing a bit of our own data. I've added a .txt file to my Desktop called "test.txt". In this file I've just added a sentence. Now I can use the `cp` command to copy this file from my Desktop to my Documents I can implement the following command:
 
 ```bash
-cp /Users/noellekosarek/Desktop/test.txt /Users/noellekosarek/Documents/test2.txt
+cp /Users/f002yt8/Desktop/test.txt /Users/f002yt8/Documents/test2.txt
 ```
 
 We can also copy entire directories from location to another location using the `cp` command along with the `-r` flag which stand for "recursive". To do this we run the following command: 
