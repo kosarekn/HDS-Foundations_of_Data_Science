@@ -16,7 +16,7 @@ It's easy to get excited about implementing ML algorithms in your research given
 
 ## Data Cleaning
 
-CARET is powerful, but it does not provide functionality to remove contaminants, conduct log10 transformations, or perform probabilistic quotient normalization. These pre-processing steps, while important, are beyond the scope of this bootcamp, but the QBS program offers classes in ML that can provide in depth instruction on additional data cleaning. 
+CARET is powerful, but it does not provide functionality to remove contaminants, conduct log10 transformations, or perform probabilistic quotient normalization. These pre-processing steps, while important, are beyond the scope of this class, but the QBS program offers classes in ML that can provide in depth instruction on additional data cleaning. 
 
 ```{r setup, include=TRUE}
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -135,11 +135,11 @@ Fit1
 
 Inherent to each model are a collection of parameters which need to be tuned for best model performance. If not re-sampling is done, and parameters are not specified, then default values are used, as we have done in the above code. To properly tune parameters, we use re-sampling procedures. When we do this, we take some portion of the training set to fit a model to, and then test it's performance on the with-held portion of the training set to avoid overfitting. There are several methods for resampling: 
 
-* K-fold Cross Validation - split the data into k approximately even sized pieces, we train on k-1 samples and test on the remaining. This process is repeated k times and enure that the piece remaining changes with each iteration. Common choices for k are 5 or 3. 
+* K-fold Cross Validation - split the data into k approximately even sized pieces, we train on k-1 samples and test on the remaining. This process is repeated k times and ensure that the piece remaining changes with each iteration. Common choices for k are 5 or 3. 
 
 ```{r}
 getwd()
-knitr::include_graphics("/images/K-fold_Cross_Validation")
+knitr::include_graphics("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_5/Lecture_Notes/images/K-fold_Cross_Validation.png")
 ```
 
 
@@ -160,6 +160,11 @@ Fit2
 ```
 
 * Repeated K-fold Cross Validation - k-fold cross validation, but you repeat the process R times where each time you split the data in a different spot. This method of cross validation is robust to "bad" cuts of the data. 
+
+```{r}
+knitr::include_graphics("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_5/Lecture_Notes/images/Repeated_K-fold_Cross_Validation.png")
+```
+
 ```{r}
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #                 REPEATED K-FOLD CROSS VALIDATION
@@ -177,6 +182,11 @@ Fit3
 ```
 
 * Leave-One-Out-Cross Validation - like k-fold cross validation, except you leave only 1 sample out for testing each time. This is consequentially the same a k-fold cross validation if k=n. A major limitation of this method is overfitting, which is why this method is seldom used save for very small data sets to provide some degree of generalizability. 
+
+```{r}
+knitr::include_graphics("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_5/Lecture_Notes/images/Leave-One-Out_Cross_Validation.png")
+```
+
 ```{r}
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #                 LEAVE-ONE-OUT CROSS VALIDATION
@@ -195,6 +205,11 @@ Fit4
 ```
 
 * Bootstrapping - re-sample from the training set, with replacement, until you hit a training set of the same size as your first set. Build a model on this new re-sampled training set, test on any samples not included in the original set. Repeat this many times. 
+
+```{r}
+knitr::include_graphics("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_5/Lecture_Notes/images/Bootstrapping.png")
+```
+
 ```{r}
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #                         BOOTSTRAPPING
@@ -212,6 +227,11 @@ Fit5
 ```
 
 * Grid Search - tries out all the possible combinations of hyperparameters in a predefined grid. The default number of parameters tested over a grid is 3, but this can be easily increased to test more parameter values.
+
+```{r}
+knitr::include_graphics("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_5/Lecture_Notes/images/Grid_Search.png")
+```
+
 ```{r}
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #                         GRID SEARCH
@@ -229,6 +249,14 @@ Fit6
 ```
 
 * Class Imbalance - our data would be considered unbalanced if there is many more samples in one class compared to another. As mentioned earlier it is good to know the strengths and weaknesses of our models. Some algorithms are sensitive to class imbalance, including random forest and k-nearest neighbor. This can sometimes be improved using up or down sampling. 
+
+```{r}
+knitr::include_graphics("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_5/Lecture_Notes/images/Class_Imbalance_Downsampling.png")
+```
+```{r}
+knitr::include_graphics("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_5/Lecture_Notes/images/Class_Imbalance_Upsampling.png")
+```
+
 
 ```{r}
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -273,6 +301,8 @@ featDF<-Train[,featSel]
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #                       FEATURE SELECTION
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+##### MAKE SURE YOU REMOVE THE SPECIES FROM THE TRAINING FOR THIS #####
 # This function generates a control object that can be used to specify the details of the feature selection algorithms used in this package
 rctrl1 <- rfeControl(method = "cv", functions = caretFuncs, allowParallel = F)
 
@@ -283,7 +313,7 @@ set.seed(24)
 
 # Run simple backward selection 
 Fit8 <- rfe(x=Train,y=Train$Species,
-             sizes = c(5,10,15,20,25,30,35,40,45,50,75,100),
+             sizes = c(3, 6, 9, 12, 15, 18),
              method = "rf", trControl = trainCtl1, tuneLength = 10, rfeControl = rctrl1)
 
 Fit8
