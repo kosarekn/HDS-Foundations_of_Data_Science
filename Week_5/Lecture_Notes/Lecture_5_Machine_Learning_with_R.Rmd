@@ -117,6 +117,7 @@ For our data set, we will employ the random forest model, code for which can be 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #                       INITAL MODEL FITTING
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+names(getModelInfo())
 # In this line of code we are indicating that we will be using the default parameters. In our next step this will change because we will be tuning some parameters.
 fitControl <- trainControl(method = "none")
 
