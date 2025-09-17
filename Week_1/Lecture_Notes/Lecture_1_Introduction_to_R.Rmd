@@ -26,7 +26,8 @@ For comfort of use, R Studio also has an "Appearance" option under Tools > Globa
 
 ## File Generation in R Studio
 Using R Studio we can generate several types of documents. Here we will discuss the file types with which you will be interacting over the course of our class:
-R Script: An R Script is a plain text file that contains lines of R codem usually written in sequetial order, It is the most basic file type for writing and running R code. R Scripts are great for writing and executing scripts, developing functions, running analyses, and automating tasks.
+
+R Script: An R Script is a plain text file that contains lines of R code usually written in sequential order, it is the most basic file type for writing and running R code. R Scripts are great for writing and executing scripts, developing functions, running analyses, and automating tasks.
 
 R Markdown: An R Markdown file combines R code with formatted text using Markdown syntax. It allows users to create dynamic documents, reports, presentation, and even websites that include both text and executable code. These sorts of files are great for creating reproducible research documents, technical reports, and presentations that combine code, analysis, and visualizations. In fact, this very file is an R Markdown file and we will be using them as a learning tool throughout the course of this class.
 
@@ -165,15 +166,19 @@ Vectors can be created using the `c()` function (standing for combine), which co
 ```{r}
 # numeric
 x <- c(1.63, 2.25, 3.83, 4.99)
+# str(x)
 
 # integer
 x <- as.integer(c(1, 2, 3, 4))
+#str(x)
 
 # character
 x <- as.character(c("a", "b", "c", "d"))
+#str(x)
 
 # logical
 x <- c(TRUE, FALSE, TRUE, TRUE)
+#str(x)
 ```
 
 Let's say you are given a vector like the one below. How can you tell what type of data it holds?
@@ -211,7 +216,7 @@ x <- c(1.63, 2.25, 3.83, 4.99)
 as.integer(x) # Note that this is different from the round() function!
 ```
 
-You may also find it helpful to explor how many items are in a vector using the `length()` function. 
+You may also find it helpful to explore how many items are in a vector using the `length()` function. 
 ```{r}
 x <- c("f","o","u","n","d","a","t","i","o","n","s","o","f","d","a","t","a","s","c","i","e","n","c","e")
 length(x)
@@ -386,7 +391,7 @@ count.matrix[3,2]
 class(count.matrix)
 ```
 
-You can modify matrices, changing entire rows/ columns or individual elements using the above accesstion techniques:
+You can modify matrices, changing entire rows/ columns or individual elements using the above accession techniques:
 
 ```{r}
 # Let's generate a matrix
@@ -423,6 +428,10 @@ Of course, you can use matrices to conduct more involved calculations like addit
 # Create two matrices
 A <- matrix(1:4, nrow = 2)
 B <- matrix(5:8, nrow = 2)
+
+# Visualize
+A
+B
 
 # Perform element-wise addition and subtraction
 A + B
@@ -491,7 +500,7 @@ df[df$sex == "male", ]
 ```
 
 ### Loops in R
-In programming you will often find you must repeat tasks on a set of data or files. On one hand you can create individual scripts for each file or piece of data you wish to analysis, tediously copying and pasting code while changing file names. This issue with this is that it is time consuming and leaves room for human error. Instead of taking this approach we can leverage loops to conduct tasks on many data sets or files. There are two main types of loops we will be using in this course: for loops and while loops. 
+In programming you will often find you must repeat tasks on a set of data or files. On one hand you can create individual scripts for each file or piece of data you wish to analyze, tediously copying and pasting code while changing file names. This issue with this is that it is time consuming and leaves room for human error. Instead of taking this approach we can leverage loops to conduct tasks on many data sets or files. There are two main types of loops we will be using in this course: for loops and while loops. 
 
 ## For Loops
 
@@ -512,7 +521,7 @@ for (num in numbers) {
 }
 ```
 
-As previously mentioned we can execute any operations we wish to conduct. Let's take the example from the previous code chunk and extend it a bit further to include a simple arthemetic operation, exponentiation.
+As previously mentioned we can execute any operations we wish to conduct. Let's take the example from the previous code chunk and extend it a bit further to include a simple arithmetic operation, exponentiation.
 
 ```{r}
 numbers <- c(1, 2, 3, 4, 5)
@@ -526,18 +535,18 @@ In the above code chunk we are printing the result of the operation `num^2`, the
 ```{r}
 # Create a sample data frame
 set.seed(123)  # For reproducibility
-df <- data.frame(
+df_rnorm <- data.frame(
   A = rnorm(5, mean = 10, sd = 2),  # 5 random numbers from a normal distribution
   B = rnorm(5, mean = 20, sd = 5),
   C = rnorm(5, mean = 30, sd = 10)
 )
 
 # Initialize an empty list to store column means
-col_means <- numeric(ncol(df))
+col_means <- numeric(ncol(df_rnorm))
 
 # For loop to compute column means
-for (i in 1:ncol(df)) {
-  col_means[i] <- mean(df[[i]])  # Compute mean of each column
+for (i in 1:ncol(df_rnorm)) {
+  col_means[i] <- mean(df_rnorm[[i]])  # Compute mean of each column
 }
 
 # Print the computed means
@@ -642,14 +651,14 @@ The major functions in base R that exist for writing tabular data to file are wr
 In both functions, the first argument specifies the object in your global environment that you wish to write to file. The second argument defines the absolute or relative path to the location you wish to save this file.
 
 ```{r}
-setwd("your_path/FoDS/data")
+setwd("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_1/Data/")
 # write to tab delimited file using write.table
-write.table(count.df, file = "count_df.txt", sep = "\t")
+write.table(count.matrix, file = "count_df.txt", sep = "\t")
 ```
 
 Let's say we wish to read back in the data from our text file. We can use one of two functions `read.table()` and `read.delim()`. `read.table()` is a general function for reading tabular data and can read any delimiter-separated file (comma, tab, space, etc.), but the delimiter must be specified manually. `read.delim()` is a specialized version of `read.table()`, pre-configured for tab-delimited files. 
 ```{r}
-setwd("your_path/FoDS/data")
+setwd("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_1/Data/")
 
 # using read.table
 count.df <- read.table(file = "count_df.txt",sep = "\t", header = TRUE, stringsAsFactors = FALSE)
@@ -660,14 +669,14 @@ count.df <- read.delim(file = "count_df.txt", stringsAsFactors=FALSE)
 In contrast, read.csv() does not require you to set the delimiter value, and by default writes data to comma separated value files (.csv).
 
 ```{r}
-setwd("your_path/FoDS/data")
+setwd("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_1/Data/")
 write.csv(df, file = "metadata_df.csv")
 ```
 
 read.csv() is used in exactly the same way read.delim(), however the file specified must contain data separated by commas and have the extension .csv.
 
 ```{r}
-setwd("your_path/FoDS/data")
+setwd("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_1/Data/")
 meta_data <- read.csv(file = "metadata_df.csv",row.names=1)
 meta_data
 ```
@@ -686,26 +695,26 @@ z <- c("a", "b", "c", "d")
 getwd()
 
 # save all 3 objects to one file
-save(x, y, z, file = "my_r_objects.rdata")
+save(x, y, z, file = "/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_1/Data/my_r_objects.rdata")
 ```
 
 These objects can then be loaded back into your global environment using the load() function with the absolute or relative file path. The objects will appear in your new environment with exactly the same names as in your previous environment.
 
 ```{r}
-load(file = "my_r_objects.rdata")
+load(file = "/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_1/Data/my_r_objects.rdata")
 ```
 
 Single R objects can be saved and restored in a similar way using the saveRDS() and readRDS() functions. Files saved using RDS must take on the .rds extension.
 
 ```{r}
 # save a single object to a specific file path
-saveRDS(x, file = "my_r_object.rds")
+saveRDS(x, file = "/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_1/Data/my_r_object.rds")
 
 # use the assignment operator to assign object to any variable you want
-x <- readRDS(file = "my_r_object.rds")
+x <- readRDS(file = "/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_1/Data/my_r_object.rds")
 
 # I changed my mind, I want the object to be assigned to variable `a` in my new env
-a <- readRDS(file = "my_r_object.rds")
+a <- readRDS(file = "/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_1/Data/my_r_object.rds")
 ```
 
 
