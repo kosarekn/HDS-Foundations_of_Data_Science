@@ -31,6 +31,7 @@ R Script: An R Script is a plain text file that contains lines of R code usually
 
 R Markdown: An R Markdown file combines R code with formatted text using Markdown syntax. It allows users to create dynamic documents, reports, presentation, and even websites that include both text and executable code. These sorts of files are great for creating reproducible research documents, technical reports, and presentations that combine code, analysis, and visualizations. In fact, this very file is an R Markdown file and we will be using them as a learning tool throughout the course of this class.
 
+
 R Notebook: An R Notebook is a type of R Markdown file that provides an interactive interface for executing code chunks and immediately viewing results inline. R Notebooks are great for interactive data exploration and analysis with a mix of code and narrative, where results are displayed immediately without needing to knit the document. 
 
 
@@ -166,25 +167,26 @@ Vectors can be created using the `c()` function (standing for combine), which co
 ```{r}
 # numeric
 x <- c(1.63, 2.25, 3.83, 4.99)
-# str(x)
+str(x)
 
 # integer
 x <- as.integer(c(1, 2, 3, 4))
-#str(x)
+str(x)
 
 # character
 x <- as.character(c("a", "b", "c", "d"))
-#str(x)
+str(x)
 
 # logical
 x <- c(TRUE, FALSE, TRUE, TRUE)
-#str(x)
+str(x)
 ```
 
 Let's say you are given a vector like the one below. How can you tell what type of data it holds?
 
 ```{r}
 x <- c(2, "a", TRUE, "87", "apple")
+str(x)
 ```
 
 We can implement the `class()` to determine the class or type of an object. When used on a vector, the `class()` function tells you whether the vector is of a specific type, such as numeric, character, logical, or integer, depending on the elements contained in the vector.
@@ -301,7 +303,7 @@ A list in R is a flexible data structure that can store multiple types of data, 
 Much like with vectors, the data in lists are stored in sequence and can be accessed by index or name. Let's create a list of student names, ages, and heights.
 
 ```{r}
-students <- list(name = c("Josh", "Rebecca", "Lamar"), age = c(24, 21, 32), height = c("5'11","5'1","5'9"))
+students <- list(name = c("Josh", "Rebecca", "Lamar"), age = c(24, 21, 32), height = c("5'11","5'1","5'9"), eye_color = c("BLUE"))
 
 print(students)
 
@@ -316,7 +318,8 @@ students$height
 students[3]
 
 # Let's say we want to access the first entry in height, we can do that using the command below
-students[[3]][1]
+length(students[[3]])
+#[1]
 
 # We can also change the names of the items in our lists
 
@@ -339,6 +342,7 @@ Today, we will be creating a count matrix of our own to familiarize ourselves wi
 First we create a vector of numbers from 0 to 10:
 ```{r}
 num.vector <- c(0:10)
+num.vector
 ```
 
 We have our computer randomly select 100 numbers from our num.vector and put it in a vector of size 100. You might notice the argument replace=TRUE. This tell the computer to sample from our num.vector with replacement, meaning each number can be chosen to be put in the count.vector more than once.
@@ -663,7 +667,7 @@ setwd("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_1/Da
 # using read.table
 count.df <- read.table(file = "count_df.txt",sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 
-count.df <- read.delim(file = "count_df.txt", stringsAsFactors=FALSE)
+count.df <- read.delim(file = "/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_1/Data/count_df.txt", stringsAsFactors=FALSE)
 ```
 
 In contrast, read.csv() does not require you to set the delimiter value, and by default writes data to comma separated value files (.csv).
@@ -715,6 +719,8 @@ x <- readRDS(file = "/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Sci
 
 # I changed my mind, I want the object to be assigned to variable `a` in my new env
 a <- readRDS(file = "/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_1/Data/my_r_object.rds")
+
+a
 ```
 
 
