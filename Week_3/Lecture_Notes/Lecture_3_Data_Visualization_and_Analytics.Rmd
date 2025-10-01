@@ -108,7 +108,7 @@ Nice! We have made some figures that help us understand the distribution of our 
 ## Check for NAs in the age variable
 length(which(is.na(data_df$RIDAGEYR) == TRUE))
 ```
-Great! It does not look like we have any missing values in the age variable. Before subsetting our data frame on age, let's also discuss the distribution of the systolic blood pressure variable. Judging by the histogram and violin plot, the distribution of the heart rate variable is fairly normal. According to the cumulative distribution function, about 90% of the values are between 100 and 150 beats per minute. As we did with age, let's take a look and see if there are any NA values in our systolic blood pressure variable.
+Great! It does not look like we have any missing values in the age variable. Before subsetting our data frame on age, let's also discuss the distribution of the systolic blood pressure variable. Judging by the histogram and violin plot, the distribution of the heart rate variable is fairly normal. According to the cumulative distribution function, about 90% of the values are between 100 and 150. As we did with age, let's take a look and see if there are any NA values in our systolic blood pressure variable.
 
 ```{r}
 ## Check for NAs in the age variable
@@ -171,7 +171,8 @@ eq_label <- paste0("y = ",
 # Generate scatter plot with regression line and equation annotation
 ggplot(data_df_sub, aes(x = RIDAGEYR, y = BPXOSY1)) +
   geom_point(alpha = 0.6, color = "blue") +                
-  geom_smooth(method = "lm", se = TRUE, color = "red") +        
+  geom_smooth(method = "lm", se = TRUE, color = "red") +   
+  #, level = 0.99
   labs(
     title = "Systolic Blood Pressure vs Age \nwith Regression Line and Equation",
     x = "Age",
@@ -181,7 +182,7 @@ ggplot(data_df_sub, aes(x = RIDAGEYR, y = BPXOSY1)) +
            hjust = 1.1, vjust = -1.1, size = 5, color = "red") +   
   theme_minimal()
 ```
-The plot we created above indicates that for every year of increase in age, systolic blood pressure reduces by 0.09 beats per minutes. The negative relationship is highlighted by the slight down slope of the regression line. 
+The plot we created above indicates that for every year of increase in age, systolic blood pressure increases by 0.4 beats per minutes. The positive relationship is highlighted by the slight up slope of the regression line. 
 
 If you recall, at the beginning of this lecture we had hypothesized that systolic blood pressure increases with increasing age. While this is not an exhaustive investigation, it appears that there is a roughly positive relationship between age and systolic blood pressure. 
 
@@ -446,7 +447,7 @@ Having obtained the list of files with .xpt extensions, we then generate two emp
 Now we have two lists, one containing the three demographics data frames and the other containing the three examination data frames. Next, we loop through the three examination data frame files and find the matching demographic files using the `grep()` function. `grep()` takes three arguments: the text we are searching for, the vector or string you are searching in, and whether or not you would like the actual value or the index of the value returned to you. In our case, we are inputting `gsub("BPXO", "DEMO", bpxo_name)` as the text we are searching for. What `gsub()` is saying replace "BPXO" with "DEMO" in our `bpxo_name`. Since we are looping through the names of the examination files that begin with "BPXO" the input to our `gsub()` function looks like this: `gsub("BPXO", "DEMO", "BPXO_2015-2016.xpt")`, for example. This would return: `"DEMO_2015-2016.xpt"`. The `grep()` function then searches for this data frame in the names of the demographics data frames. Since we have added `value = TRUE` our code will return the actual value of that index and not just the index itself. 
 
 Great! Now we have found matching demographic and examination data frames. Earlier in the code we initiated another empty list called `merged_dfs` to which we will add the merged demographic and examination data frames from one year. To do this we employ the `merge()` function. 
-We search for the corresponding demographic and examination data frames for a single year in their respective vectors of data frames and merge those data frames by the participant ID, "SQEN". This combind data frame is then added to the vector or `merged_dfs` under the name of the examination data frame for that year. 
+We search for the corresponding demographic and examination data frames for a single year in their respective vectors of data frames and merge those data frames by the participant ID, "SQEN". This combined data frame is then added to the vector or `merged_dfs` under the name of the examination data frame for that year. 
 
 At the end of this chunk of code, I renamed the merged data frames within the list, just because I like this naming scheme better. Now we have a list of merged data frames with which we can make some attractive plots! 
 
@@ -462,6 +463,53 @@ for (df in merged_dfs){
 
 Challenge: Can you make this work for different variables? Hint - you might need to change the names of some of the variables in the data frames in order to automate this data frame. Can you also alter the `create_distribution_plots()` function to add titles indicating which years the plots are from? 
 
+### Heatmaps
+
+ I'm not saying anything leading, but this part **might** be helpful for your Final Project Check In 2 and Final Project. I have generated some pseudo RNA-seq count data along with corresponding meta data. I want to get an idea of the relationships between my genes by Disease Status and Sex. The best visualization to do this is a heat map. A heat map  is a graphical representation of data where individual values contained in a matrix are represented as colors. In RNA-seq data, heat maps are often used to display the expression levels of genes (rows) across multiple samples (columns). The color intensity reflects the magnitude of the values allowing for easier interpretation of patterns. 
+ 
+Let's create a heat map of just 10 of our genes and add annotation bars for Sex and Disease Status in order to gain an understanding of how those variables contribute to gene expression. 
+
+```{r}
+library(ComplexHeatmap)
+library(circlize)
+
+##Read in count matrix and corresponding meta data
+counts <- read.csv("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Data/heatmap_counts.csv", row.names = 1)
+
+metadata <- read.csv("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_3/Data/heatmap_metadata.csv", row.names = 1)
+
+## I'm just selecting 10 genes here
+genes_to_plot <- rownames(counts)[1:10]
+
+## Keep only the 10 genes we want
+counts_subset <- counts[genes_to_plot, ]
+
+## Heatmap annotaitons
+column_ha <- HeatmapAnnotation(
+  Disease_Status = metadata$Disease_Status,
+  Sex = metadata$Sex,
+  col = list(
+    Disease_Status = c(Case = "red", Control = "blue"),
+    Sex = c(Male = "green", Female = "purple")
+  )
+)
+
+# Create heatmap
+Heatmap(
+  counts_subset,
+  name = "Counts",
+  top_annotation = column_ha,
+  show_row_names = TRUE,
+  show_column_names = TRUE,
+  cluster_columns = TRUE,
+  cluster_rows = TRUE,
+  column_title = "Samples",
+  row_title = "Genes",
+  heatmap_legend_param = list(title = "Count")
+)
+```
+
+
 ### Conclusions
 
 In today's lesson we expanded upon our data visualization and analytics skills with the following:
@@ -470,7 +518,7 @@ In today's lesson we expanded upon our data visualization and analytics skills w
 
 * Advanced Data Visualization Using Custom Functions: We developed a custom create_distribution_plots() function to automate generation of three panel distribution plots for any variable. 
 
-* Advanced Data Wrangling and Visualization: We looped through two different types of files to implement built in functions as well as our custom functions.
+* Advanced Data Wrangling and Visualization: We looped through two different types of files to implement built in functions as well as our custom functions. We also briefly discuss how to generate heat maps!
 
 While the previous three lectures have covered the ins and outs of R, in the next live lecture we will be moving to bash programming.
 

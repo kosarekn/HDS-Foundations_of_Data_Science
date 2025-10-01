@@ -8,14 +8,14 @@ date: "2025-06-20"
 
 Save this file as a .png. Play around with widths and heights of the plots to get them just right. 
 ```{r setup, include=TRUE}
-dat <- read.csv("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_2/Data/Assignment_2_Arsenic.csv")
+dat <- read.csv("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_2/Data/In_Class_Exercises_Arsenic.csv")
 
 png("/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_2/Data/arsenic_boxplot.png", width = 1500, height = 1500, res = 300)
 boxplot(Arsenic_Total ~ Gender, data = dat, main = "Arsenic Total by Gender", col = c("#E9D7C0","#BAD6D1"), xlab = "Gender", ylab = "Arsenic Total (ug/L)")
 dev.off()
 ```
 
-2) Using `ggplot2()`, generate another box plot using the data frame of NHANES data from the previous question, but this time make it a box plot grouped by gender on the y-axis. Break up each of the groups by marital status. Add a jitter to each of the box plots. 
+2) Using `ggplot2()`, generate another box plot using the data frame of NHANES data from the previous question, but this time make it a box plot grouped by gender on the x-axis. Break up each of the groups by marital status. Add a jitter to each of the box plots. 
 
 ```{r}
 library(ggplot2)
@@ -28,7 +28,7 @@ p <- ggplot(dat, aes(x = Gender, y = Arsenic_Total, fill = Marital_Status)) +
   scale_fill_brewer(palette = "Set1") +
   scale_color_brewer(palette = "Set1")
 
-
+p
 ```
 
 3) Generate a violin plot of the total arsenic levels by marital status. Conduct a Wilcoxon Rank Sum test and report the p-value between the Married and Never Married participants on the violin plots. 
