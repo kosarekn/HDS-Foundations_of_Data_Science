@@ -182,7 +182,7 @@ ggplot(data_df_sub, aes(x = RIDAGEYR, y = BPXOSY1)) +
            hjust = 1.1, vjust = -1.1, size = 5, color = "red") +   
   theme_minimal()
 ```
-The plot we created above indicates that for every year of increase in age, systolic blood pressure increases by 0.4 beats per minutes. The positive relationship is highlighted by the slight up slope of the regression line. 
+The plot we created above indicates that for every year of increase in age, systolic blood pressure increases by 0.4 units. The positive relationship is highlighted by the slight up slope of the regression line. 
 
 If you recall, at the beginning of this lecture we had hypothesized that systolic blood pressure increases with increasing age. While this is not an exhaustive investigation, it appears that there is a roughly positive relationship between age and systolic blood pressure. 
 
@@ -407,7 +407,7 @@ data_path <- "/Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/We
 
 # List all .xpt files in the directory
 xpt_files <- list.files(path = data_path, pattern = ".xpt")
-
+xpt_files
 # Create empty lists to store BPXO and DEMO dataframes
 bpxo_dfs <- list()
 demo_dfs <- list()
@@ -465,7 +465,7 @@ Challenge: Can you make this work for different variables? Hint - you might need
 
 ### Heatmaps
 
- I'm not saying anything leading, but this part **might** be helpful for your Final Project Check In 2 and Final Project. I have generated some pseudo RNA-seq count data along with corresponding meta data. I want to get an idea of the relationships between my genes by Disease Status and Sex. The best visualization to do this is a heat map. A heat map  is a graphical representation of data where individual values contained in a matrix are represented as colors. In RNA-seq data, heat maps are often used to display the expression levels of genes (rows) across multiple samples (columns). The color intensity reflects the magnitude of the values allowing for easier interpretation of patterns. 
+I'm not saying anything leading, but this part **might** be helpful for your Final Project Check In 2 and Final Project. I have generated some pseudo RNA-seq count data along with corresponding meta data. I want to get an idea of the relationships between my genes by Disease Status and Sex. The best visualization to do this is a heat map. A heat map  is a graphical representation of data where individual values contained in a matrix are represented as colors. In RNA-seq data, heat maps are often used to display the expression levels of genes (rows) across multiple samples (columns). The color intensity reflects the magnitude of the values allowing for easier interpretation of patterns. 
  
 Let's create a heat map of just 10 of our genes and add annotation bars for Sex and Disease Status in order to gain an understanding of how those variables contribute to gene expression. 
 

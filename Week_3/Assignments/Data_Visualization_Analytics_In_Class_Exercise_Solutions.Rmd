@@ -88,7 +88,8 @@ my_fun <- function(con_var){
     i = i + 1
   }
 
-  age_summaries <- lapply(my_dfs, function(df) summary(df[con_var]))
+  age_summaries <- lapply(my_dfs, function(df) summary(df[,con_var]))
+  print(age_summaries)
 }
 
 my_fun("Age")

@@ -62,7 +62,7 @@ If you can't find the Terminal that way, you can use Spotlight Search (command +
 
 * Windows Folks
 
-Windows does not natively include a Unix-style shell, but you can use Windows Subsystem for Linux (WSL). WSL allows us to run a genuine Linux environment, including Bash and most command-line tools, directly on Windows 10 or 11. This menas that Windows users can run bash scripts, use Unix commands, and nstall Linus software alongside their Windows apps. 
+Windows does not natively include a Unix-style shell, but you can use Windows Subsystem for Linux (WSL). WSL allows us to run a genuine Linux environment, including Bash and most command-line tools, directly on Windows 10 or 11. This menas that Windows users can run bash scripts, use Unix commands, and install Linux software alongside their Windows apps. 
 
 The Microsoft documentation you need to install this can be found (here)["https://learn.microsoft.com/en-us/windows/wsl/about"]. This link provides step-by-step installation instructions and guidance on using your favorite Linux distributions (Ubuntum Debian, Kali, openSUSE, etc.) on Windows.
 
@@ -81,7 +81,7 @@ pwd
 What does this return? It should be something like:
 
 ```bash
-/Users/f002yt8/Desktop/
+/Users/f002yt8/
 ```
 
 The `pwd` command returns our current directory. This is the location that we are at in our computer. The equivalent of this would be us opening up our finder and selecting our Desktop. This means that our computer can see all of the files we have on our Desktop. 
@@ -168,7 +168,7 @@ We can also copy entire directories from location to another location using the 
 cp -r source_folder destination_folder
 ```
 
-You can se the source directory here to, perhaps, the directory for this class that you have on your local machine and you can copy it over to your GitHub directory or some other location. 
+You can use this code on your local machine to copy it over the directory for this class to your GitHub directory or some other location. 
 
 6) mv
 
@@ -265,7 +265,7 @@ less /Users/f002yt8/Documents/GitHub/HDS-Foundations_of_Data_Science/Week_4/Data
 When you run this command, you will observe the the contents of the file fill your terminal. You can use the Page Up/Down arrows to scroll through. You can also use `/search_term` to find occurences of certain words or phrases. 
 
 ```bash
-/"Gene123"
+/"Gene045"
 ```
 
 To exit, simply press `q` on your keyboard for "quit". 
@@ -299,7 +299,7 @@ Bash scripting allows you to automate sequences of commands and build programmab
 
 * Writing and Running a Bash Script
 
-In a video associated with this class, we learned how to submit a job on the HPC system using a bash slurm submission script. The script we had this job run was an R script. We can also create files to run bash scripts themselves. 
+In a video associated with this class, we will learn how to submit a job on the HPC system using a bash slurm submission script. Today, we will learn how to execute bash scripts on our local machine.  
 
 Let's create a bash script that makes a directory for an imaginary project. Within that directory, we will create a subdirectory called "data". We will also create a new file that contains our project notes. We will then copy the data.csv file we were previously working with into our newly created "data" subdirectory and then rename that file. 
 
@@ -417,7 +417,7 @@ while [ $count -gt 0 ]; do
   echo "Countdown: $count"
   count=$((count - 1))
 done
-echo "Blast off!"
+echo 'Blast off!'
 ```
 
 This script counts down from 5 and when that condition is no longer met, the loop exits and then prints out "Blast off!". Note `-gt` is "greater than".
